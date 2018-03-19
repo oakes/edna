@@ -121,7 +121,12 @@
 (defn note? [x]
   (not= :clojure.spec.alpha/invalid (parse-note x)))
 
-(s/def ::chord (s/coll-of note? :kind set?))
+(s/def ::chord (s/coll-of
+                 (s/or
+                   :note note?
+                   :rest #{:r}
+                   :subsection (s/spec ::parts))
+                 :kind set?))
 
 (s/def ::octave number?)
 (s/def ::length number?)
