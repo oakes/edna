@@ -1,0 +1,4 @@
+{:paths ["src"]
+ :deps {org.clojure/clojure {:mvn/version "1.9.0" :scope "provided"}
+        alda/core {:mvn/version "0.3.10"}
+        alda/sound-engine-clj {:mvn/version "0.3.2"}}}
