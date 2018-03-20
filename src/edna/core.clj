@@ -107,35 +107,40 @@
 
 (def pitches #{\# \= \_})
 
-(s/def ::note (s/cat
-                :octave-operator (s/? octave-operators)
-                :octaves (s/* digits)
-                :note notes
-                :pitch (s/* pitches)))
+(s/def ::note-parts (s/cat
+                      :octave-operator (s/? octave-operators)
+                      :octaves (s/* digits)
+                      :note notes
+                      :pitch (s/* pitches)))
 
 (defn parse-note [note]
   (if-not (keyword? note)
     :clojure.spec.alpha/invalid
-    (s/conform ::note (seq (name note)))))
+    (s/conform ::note-parts (seq (name note)))))
 
 (defn note? [x]
   (not= :clojure.spec.alpha/invalid (parse-note x)))
 
-(s/def ::chord (s/coll-of
-                 (s/or
-                   :note note?
-                   :rest #{:r})
-                 :kind set?))
+(s/def ::note note?)
+(s/def ::rest #{:r})
 
 (s/def ::octave number?)
 (s/def ::length number?)
-(s/def ::attrs (s/keys :opt-un [::octave ::length]))
+(s/def ::attrs (s/keys :opt-un [::octave ::length ::note]))
+(s/def ::note-attrs (s/keys :opt-un [::octave ::length] :req-un [::note]))
+
+(s/def ::chord (s/coll-of
+                 (s/or
+                   :note ::note
+                   :rest ::rest
+                   :attrs ::note-attrs)
+                 :kind set?))
 
 (s/def ::section (s/cat
                    :instrument (s/? instruments)
                    :parts (s/* (s/alt
-                                 :note note?
-                                 :rest #{:r}
+                                 :note ::note
+                                 :rest ::rest
                                  :octave integer?
                                  :attrs ::attrs
                                  :chord ::chord
