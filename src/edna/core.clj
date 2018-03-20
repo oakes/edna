@@ -124,34 +124,23 @@
 (s/def ::chord (s/coll-of
                  (s/or
                    :note note?
-                   :rest #{:r}
-                   :subsection (s/spec ::parts))
+                   :rest #{:r})
                  :kind set?))
 
 (s/def ::octave number?)
 (s/def ::length number?)
 (s/def ::attrs (s/keys :opt-un [::octave ::length]))
 
-(s/def ::parts (s/* (s/alt
-                      :note note?
-                      :rest #{:r}
-                      :octave integer?
-                      :attrs ::attrs
-                      :chord ::chord
-                      :subsection (s/spec (s/cat
-                                            :instrument (s/? instruments)
-                                            :parts ::parts)))))
-
 (s/def ::section (s/cat
-                   :instrument instruments
-                   :parts ::parts))
+                   :instrument (s/? instruments)
+                   :parts (s/* (s/alt
+                                 :note note?
+                                 :rest #{:r}
+                                 :octave integer?
+                                 :attrs ::attrs
+                                 :chord ::chord
+                                 :concurrent-subsection (s/coll-of ::section :kind set?)
+                                 :subsection (s/spec ::section)))))
 
-(s/def ::concurrent-sections (s/coll-of ::section :kind set?))
-
-(s/def ::sections
-  (s/coll-of (s/or
-               :single ::section
-               :concurrent ::concurrent-sections)))
-
-(s/conform ::sections dueling-banjos)
+(s/conform ::section dueling-banjos)
 
