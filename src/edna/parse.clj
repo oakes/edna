@@ -44,16 +44,16 @@
 
 (s/def ::score (s/cat
                    :instrument (s/? instruments)
-                   :parts (s/* ::part)))
+                   :subscores (s/* ::subscore)))
 
-(s/def ::part (s/alt
-                :note ::note
-                :rest ::rest
-                :octave integer?
-                :attrs ::attrs
-                :chord ::chord
-                :concurrent-score (s/coll-of ::score :kind set?)
-                :score (s/spec ::score)))
+(s/def ::subscore (s/alt
+                    :note ::note
+                    :rest ::rest
+                    :octave integer?
+                    :attrs ::attrs
+                    :chord ::chord
+                    :concurrent-score (s/coll-of ::score :kind set?)
+                    :score (s/spec ::score)))
 
 (def parse (partial s/conform ::score))
 

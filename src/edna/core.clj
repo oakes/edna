@@ -1,10 +1,31 @@
 (ns edna.core
   (:require [alda.lisp :as al]
-            [edna.parse :refer [parse]]))
+            [alda.now :as now]
+            [edna.parse :refer [parse]]
+            [clojure.edn :as edn]))
 
-(defmulti build-score
-  (fn []))
+(def default-attrs {:octave 4 :length 1/4})
 
-(defn score [content]
-  (parse content))
+(defmulti build-score (fn [val parent-attrs] (first val)))
+
+(defmethod build-score :score [[_ {:keys [instrument subscores]}] parent-attrs]
+  (let [attrs (if instrument
+                (assoc parent-attrs :instrument instrument)
+                parent-attrs)]
+    [(first
+       (reduce
+         (fn [[subscores attrs] subscore]
+           (let [[subscore attrs] (build-score subscore attrs)]
+             [(conj subscores subscore) attrs]))
+         [[] attrs]
+         subscores))
+     parent-attrs]))
+
+(defmethod build-score :default [[subscore-name] parent-attrs]
+  (throw (Exception. (str subscore-name " not recognized"))))
+
+(defn play-score [content]
+  (now/play! (first (build-score [:score (parse content)] default-attrs))))
+
+(def example (edn/read-string (slurp "examples/dueling-banjos.edn")))
 
