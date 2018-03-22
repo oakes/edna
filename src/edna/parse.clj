@@ -55,5 +55,9 @@
                     :concurrent-score (s/coll-of ::score :kind set?)
                     :score (s/spec ::score)))
 
-(def parse (partial s/conform ::score))
+(defn parse [content]
+  (let [res (s/conform ::score content)]
+    (if (= res :clojure.spec.alpha/invalid)
+      (throw (Exception. (s/explain-str ::score content)))
+      res)))
 

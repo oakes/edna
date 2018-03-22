@@ -24,8 +24,9 @@
 (defmethod build-score :default [[subscore-name] parent-attrs]
   (throw (Exception. (str subscore-name " not recognized"))))
 
-(defn play-score [content]
-  (now/play! (first (build-score [:score (parse content)] default-attrs))))
+(defn edna->alda [content]
+  (first (build-score [:score (parse content)] default-attrs)))
 
-(def example (edn/read-string (slurp "examples/dueling-banjos.edn")))
+(defn example []
+  (edn/read-string (slurp "examples/dueling-banjos.edn")))
 
