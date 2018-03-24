@@ -25,7 +25,7 @@
                            (conj parent-ids id))
                    [subscore attrs] (build-score subscore attrs)]
                [(conj subscores subscore) attrs]))
-           [[] attrs]
+           [[] (dissoc attrs :sibling-id)]
            (vec subscores)))
        (al/marker (str/join "." (conj parent-ids id))))
      (assoc parent-attrs :sibling-id id)]))
@@ -49,8 +49,12 @@
      parent-attrs]
     [nil (merge parent-attrs attrs)]))
 
-(defmethod build-score :note [[_ note] {:keys [octave length] :as parent-attrs}]
-  (let [{:keys [note pitch octave-op octaves]} (parse-note note)
+(defmethod build-score :note [[_ note]
+                              {:keys [octave length
+                                      sibling-id parent-ids]
+                               :as parent-attrs}]
+  (let [id (inc (or sibling-id 0))
+        {:keys [note pitch octave-op octaves]} (parse-note note)
         note (keyword (str note))
         pitch (case pitch
                 \# :sharp
@@ -60,11 +64,14 @@
                     (if octave-op [\1] [\0]))
         octave-change (cond-> (Integer/valueOf (str/join octaves))
                               (= \- octave-op) (* -1))]
-    [[(al/octave (+ octave octave-change))
+    [[(when sibling-id
+        (al/at-marker (str/join "." (conj parent-ids sibling-id))))
+      (al/octave (+ octave octave-change))
       (al/note
         (al/pitch note pitch)
-        (al/duration (al/note-length (/ 1 length))))]
-     parent-attrs]))
+        (al/duration (al/note-length (/ 1 length))))
+      (al/marker (str/join "." (conj parent-ids id)))]
+     (assoc parent-attrs :sibling-id id)]))
 
 (defmethod build-score :chord [[_ chord] parent-attrs]
   [(apply al/chord
