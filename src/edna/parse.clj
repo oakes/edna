@@ -56,6 +56,8 @@
                     :score (s/spec ::score)))
 
 (defn parse [content]
+  (when-not (vector? content)
+    (throw (Exception. "Input value must be a vector")))
   (let [res (s/conform ::score content)]
     (if (= res :clojure.spec.alpha/invalid)
       (throw (Exception. (s/explain-str ::score content)))
