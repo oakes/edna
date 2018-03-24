@@ -93,7 +93,11 @@
 (defn edna->alda [content]
   (first (build-score [:score (parse content)] default-attrs)))
 
-#_
-(-> "examples/dueling-banjos.edn" slurp
-    edn/read-string edna->alda now/play!)
+(defonce my-score (atom nil))
+
+(some-> @my-score now/tear-down!)
+
+(reset! my-score (now/with-new-score
+                   (-> "examples/dueling-banjos.edn" slurp
+                       edn/read-string edna->alda now/play!)))
 
