@@ -14,23 +14,33 @@
   (let [id (inc (or sibling-id 0))
         attrs (if instrument
                 (assoc parent-attrs :instrument instrument)
-                parent-attrs)
-        parts (first
-                (reduce
-                  (fn [[subscores attrs] subscore]
-                    (let [attrs (assoc attrs :parent-ids
-                                  (conj parent-ids id))
-                          [subscore attrs] (build-score subscore attrs)]
-                      [(conj subscores subscore) attrs]))
-                  [[] attrs]
-                  (vec subscores)))]
-    [(if instrument
-       (al/part (name instrument)
-         (when sibling-id
-           (al/at-marker (str/join "." (conj parent-ids sibling-id))))
-         parts
-         (al/marker (str/join "." (conj parent-ids id))))
-       parts)
+                parent-attrs)]
+    [(al/part (if instrument (name instrument) {})
+       (when sibling-id
+         (al/at-marker (str/join "." (conj parent-ids sibling-id))))
+       (first
+         (reduce
+           (fn [[subscores attrs] subscore]
+             (let [attrs (assoc attrs :parent-ids
+                           (conj parent-ids id))
+                   [subscore attrs] (build-score subscore attrs)]
+               [(conj subscores subscore) attrs]))
+           [[] attrs]
+           (vec subscores)))
+       (al/marker (str/join "." (conj parent-ids id))))
+     (assoc parent-attrs :sibling-id id)]))
+
+(defmethod build-score :concurrent-score [[_ scores]
+                                          {:keys [sibling-id parent-ids] :as parent-attrs}]
+  (let [id (inc (or sibling-id 0))]
+    [(al/part {}
+       (reduce
+         (fn [scores score]
+           (let [[score _] (build-score [:score score] parent-attrs)]
+             (conj scores score)))
+         []
+         (vec scores))
+       (al/marker (str/join "." (conj parent-ids id))))
      (assoc parent-attrs :sibling-id id)]))
 
 (defmethod build-score :attrs [[_ {:keys [note] :as attrs}] parent-attrs]
@@ -63,10 +73,12 @@
        chord))
    parent-attrs])
 
+(defmethod build-score :rest [[_ _] {:keys [length] :as parent-attrs}]
+  [(al/pause (al/duration (al/note-length (/ 1 length))))
+   parent-attrs])
+
 (defmethod build-score :octave [[_ octave] parent-attrs]
   [nil (update parent-attrs :octave + octave)])
-
-(defmethod build-score :concurrent-score [[_ scores] parent-attrs])
 
 (defmethod build-score :default [[subscore-name] parent-attrs]
   (throw (Exception. (str subscore-name " not recognized"))))
@@ -74,14 +86,7 @@
 (defn edna->alda [content]
   (first (build-score [:score (parse content)] default-attrs)))
 
-(def example (edn/read-string (slurp "examples/dueling-banjos.edn")))
-
-;(now/play! (edna->alda example))
-
 #_
-(now/play!
-  (edna->alda
-    [[:guitar
-      {:octave 4 :length 1/8} #{:d :-b :-g} #{:d :-b :-g}
-      {:length 1/4} #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]]))
+(-> "examples/dueling-banjos.edn" slurp
+    edn/read-string edna->alda now/play!)
 
