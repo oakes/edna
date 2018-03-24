@@ -28,6 +28,7 @@
                                 :password (System/getenv "CLOJARS_PASS")}])))
 
 (require
+  '[alda.now]
   '[nightlight.boot :refer [nightlight]])
 
 (task-options!

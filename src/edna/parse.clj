@@ -14,7 +14,7 @@
 (def pitches #{\# \= \_})
 
 (s/def ::note-parts (s/cat
-                      :octave-operator (s/? octave-operators)
+                      :octave-op (s/? octave-operators)
                       :octaves (s/* digits)
                       :note notes
                       :pitch (s/* pitches)))
