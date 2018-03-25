@@ -117,10 +117,11 @@
 #_
 (play! *my-score
   (-> "examples/dueling-banjos.edn" slurp edn/read-string))
-#_
+;#_
 (play! *my-score
   [:guitar {:tempo 64 :octave 4}
    {:length 1/8} #{:-d :-a :e :f#} :a
    {:length 1/2} #{:f# :+d}
-   {:length 1/8} :-e])
+   {:length 1/8} #{:-e :e :+c} :a
+   {:length 1/2} #{:c :e}])
 
