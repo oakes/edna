@@ -117,44 +117,8 @@
 #_
 (play! *my-score
   (-> "examples/dueling-banjos.edn" slurp edn/read-string))
-(def aeriths-theme
-  [[:guitar {:tempo 64}
-    {:length 1/8} #{:-d :-a :e :f#} :a
-    {:length 1/2} #{:f# :+d}
-    {:length 1/8} #{:-e :e :+c} :a
-    {:length 1/2} #{:c :e}]
-   [:guitar {:tempo 64}
-    {:length 1/8} #{:-d :-a :e :f#} :a :+d :+c# :+e :+d :b :+c#
-    {:length 1/2} #{:-e :c :a}
-    {:length 1/2} #{:c :e}]
-   [:guitar {:tempo 64}
-    {:length 1/8} #{:-d :-a :e :f#} :a
-    {:length 1/4} #{:f# :+d} :e :d
-    {:tempo 140 :length 1/8} #{:-2a :c :+c} :a
-    {:length 1/4} #{:c :e} :-b :-a]
-   [:guitar {:tempo 74}
-    {:length 1/8} :d :e #{:-d :d :f# :+d} :-a :d :-a :f# :-a
-    :d :-a :-d :-a :d
-    {:length 1/4} #{:d :f#}]
-   [:guitar {:tempo 74}
-    {:length 1/8} #{:-d :d} #{:-c# :e} #{:-2b :f#} :-f# :d :-b
-    {:length 1/4} :d
-    {:length 1/8} #{:-f# :-a :d :f#} :g #{:-2a :a} :-f# :c# :-a
-    {:length 1/4} #{:c# :f#}]
-   [:guitar {:tempo 74}
-    {:length 1/8} #{:-g :d :g :b} :+c# #{:-2b :+d} :-d
-    #{:-b :g :b} :-g
-    {:length 1/4} :-b #{:-g :e :g}
-    {:length 1/16} #{:-d :f# :a} :b
-    {:length 1/8} #{:-a :a} :e :-a
-    {:length 1/4} :f#]
-   [:guitar {:tempo 74 :length 1/8}
-    #{:-d :a} :f# #{:-2a :c#} :-f# :-a :c# #{:-2a :+c#}
-    :-f# :-a :c# #{:-2a :b} :-f# :-a :f# #{:-2a :a} :-f#]
-   [:guitar {:tempo 74 :length 1/8}
-    #{:-a :b} :a #{:-2b :d} :-d :-a :-b #{:-d :b} :-a
-    :-b :d #{:-d :a} :-a :-b :d
-    #{:g :-d} :-a]])
+
 #_
-(play! *my-score (last aeriths-theme))
+(play! *my-score
+  (-> "examples/aeriths-theme.edn" slurp edn/read-string))
 
