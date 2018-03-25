@@ -32,8 +32,9 @@
 
 (s/def ::octave number?)
 (s/def ::length number?)
-(s/def ::attrs (s/keys :opt-un [::octave ::length ::note]))
-(s/def ::note-attrs (s/keys :opt-un [::octave ::length] :req-un [::note]))
+(s/def ::tempo number?)
+(s/def ::attrs (s/keys :opt-un [::octave ::length ::tempo ::note]))
+(s/def ::note-attrs (s/keys :opt-un [::octave ::length ::tempo] :req-un [::note]))
 
 (s/def ::chord (s/coll-of
                  (s/or

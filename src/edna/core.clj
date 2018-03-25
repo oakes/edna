@@ -5,7 +5,7 @@
             [clojure.edn :as edn]
             [clojure.string :as str]))
 
-(def default-attrs {:octave 4 :length 1/4 :parent-ids []})
+(def default-attrs {:octave 4 :length 1/4 :tempo 120 :parent-ids []})
 
 (defmulti build-score (fn [val parent-attrs] (first val)))
 
@@ -50,7 +50,7 @@
     [nil (merge parent-attrs attrs)]))
 
 (defmethod build-score :note [[_ note]
-                              {:keys [octave length
+                              {:keys [octave length tempo
                                       sibling-id parent-ids]
                                :as parent-attrs}]
   (let [id (inc (or sibling-id 0))
@@ -67,18 +67,27 @@
     [[(when sibling-id
         (al/at-marker (str/join "." (conj parent-ids sibling-id))))
       (al/octave (+ octave octave-change))
+      (al/tempo tempo)
       (al/note
         (al/pitch note pitch)
         (al/duration (al/note-length (/ 1 length))))
       (al/marker (str/join "." (conj parent-ids id)))]
      (assoc parent-attrs :sibling-id id)]))
 
-(defmethod build-score :chord [[_ chord] parent-attrs]
-  [(apply al/chord
-     (map (fn [note]
-            (first (build-score note parent-attrs)))
-       chord))
-   parent-attrs])
+(defmethod build-score :chord [[_ chord]
+                               {:keys [sibling-id parent-ids] :as parent-attrs}]
+  (let [id (inc (or sibling-id 0))
+        attrs (-> parent-attrs
+                  (assoc :parent-ids (conj parent-ids id))
+                  (dissoc :sibling-id))]
+    [[(when sibling-id
+        (al/at-marker (str/join "." (conj parent-ids sibling-id))))
+      (apply al/chord
+        (map (fn [note]
+               (first (build-score note attrs)))
+          chord))
+      (al/marker (str/join "." (conj parent-ids id)))]
+     (assoc parent-attrs :sibling-id id)]))
 
 (defmethod build-score :rest [[_ _] {:keys [length] :as parent-attrs}]
   [(al/pause (al/duration (al/note-length (/ 1 length))))
@@ -105,7 +114,13 @@
          (now/play! (edna->alda content)))))))
 
 (defonce *my-score (atom nil))
-
-(play! *my-score)
-  ;(-> "examples/dueling-banjos.edn" slurp edn/read-string))
+#_
+(play! *my-score
+  (-> "examples/dueling-banjos.edn" slurp edn/read-string))
+#_
+(play! *my-score
+  [:guitar {:tempo 64 :octave 4}
+   {:length 1/8} #{:-d :-a :e :f#} :a
+   {:length 1/2} #{:f# :+d}
+   {:length 1/8} :-e])
 
