@@ -1,86 +1,80 @@
 [:piano
  {:tempo 74}
  
- {:length 1/8} #{:-d :-a :e :f#} :a
- {:length 1/2} #{:f# :+d}
- {:length 1/8} #{:-e :e :+c} :a
- {:length 1/2} #{:c :e}
- {:length 1/8} #{:-d :-a :e :f#} :a :+d :+c# :+e :+d :b :+c#
- {:length 1/2} #{:-e :c :a}
- {:length 1/2} #{:c :e}
+ 1/8 #{:-d :-a :e :f#} :a 1/2 #{:f# :+d}
+ 1/8 #{:-e :e :+c} :a 1/2 #{:c :e}
+ 1/8 #{:-d :-a :e :f#} :a :+d :+c# :+e :+d :b :+c# 1/2 #{:-e :c :a} 1/2 #{:c :e}
  
- {:length 1/8} #{:-d :-a :e :f#} :a
- {:length 1/4} #{:f# :+d} :e :d
- {:length 1/8} #{:-2a :c :+c} :a
- {:length 1/4} #{:c :e} :-b :-a
+ 1/8 #{:-d :-a :e :f#} :a 1/4 #{:f# :+d} :e :d
+ 1/8 #{:-2a :c :+c} :a 1/4 #{:c :e} :-b :-a
  
- {:length 1/8} :d :e #{:-d :d :f# :+d} :-a :d :-a :f# :-a
+ 1/8 :d :e #{:-d :d :f# :+d} :-a :d :-a :f# :-a
  :d :-a :-d :-a :d
- {:length 1/4} #{:d :f#}
- {:length 1/8} #{:-d :d} #{:-c# :e} #{:-2b :f#} :-f# :d :-b
- {:length 1/4} :d
- {:length 1/8} #{:-f# :-a :d :f#} :g #{:-2a :a} :-f# :c# :-a
- {:length 1/4} #{:c# :f#}
- {:length 1/8} #{:-g :d :g :b} :+c# #{:-2b :+d} :-d
+ 1/4 #{:d :f#}
+ 1/8 #{:-d :d} #{:-c# :e} #{:-2b :f#} :-f# :d :-b
+ 1/4 :d
+ 1/8 #{:-f# :-a :d :f#} :g #{:-2a :a} :-f# :c# :-a
+ 1/4 #{:c# :f#}
+ 1/8 #{:-g :d :g :b} :+c# #{:-2b :+d} :-d
  #{:-b :g :b} :-g
- {:length 1/4} :-b #{:-g :e :g}
- {:length 1/16} #{:-d :f# :a} :b
- {:length 1/8} #{:-a :a} :e :-a
- {:length 1/4} :f#
+ 1/4 :-b #{:-g :e :g}
+ 1/16 #{:-d :f# :a} :b
+ 1/8 #{:-a :a} :e :-a
+ 1/4 :f#
  
- {:length 1/8}
+ 1/8
  #{:-d :a} :f# #{:-2a :c#} :-f# :-a :c# #{:-2a :+c#}
  :-f# :-a :c# #{:-2a :b} :-f# :-a :f# #{:-2a :a} :-f#
  
- {:length 1/8}
+ 1/8
  #{:-a :b} :a #{:-2b :d} :-d :-a :-b #{:-d :b} :-a
  :-b :d #{:-d :a} :-a :-b :d
  #{:g :-d} :-a
  
- {:length 1/8}
+ 1/8
  #{:a :-b} :f# #{:-2a :c#} :-g# :-a :c# #{:-2a :+c#}
  :-g# :-a :c# #{:b :-2a} :-g# :-a :c#
  #{:-f# :a} :-g#
  
- {:length 1/8}
+ 1/8
  #{:-a :b} :+c# #{:-g :+d} :d :g :a :b :+d
- {:length 1/4} #{:f# :b :+d}
- {:length 1/8} :-d :-g
- {:length 1/4} #{:-b :g :+d} #{:-g :a :+c#}
+ 1/4 #{:f# :b :+d}
+ 1/8 :-d :-g
+ 1/4 #{:-b :g :+d} #{:-g :a :+c#}
  
- {:length 1/4} #{:-g :g :b} #{:-d :d :f# :a}
- {:length 1/8} :-d :-a #{:e :f#} :-a #{:e :f#} :-a
+ 1/4 #{:-g :g :b} #{:-d :d :f# :a}
+ 1/8 :-d :-a #{:e :f#} :-a #{:e :f#} :-a
  :-d :-g #{:b :+d} :-d #{:a :+c#} :-d
  #{:g :b} :-d #{:-a :+c#}
  
- {:length 1/8} :-d
- {:length 1/4} #{:-a :+c#}
- {:length 1/8} :-2a :+f# #{:-2a :+f#} :c#
- {:length 1/4} :f#
- {:length 1/8} :-2b :-d #{:a :+c#} :-d #{:g :b} :-d
- {:length 1/4} #{:-a :+c#}
- {:length 1/2} #{:-e :d :g :a} #{:-e :d :e} #{:-2a :-g :d :e}
- {:length 1/4} #{:-2a :-a :c#}
- {:length 1/8} #{:e :d}
+ 1/8 :-d
+ 1/4 #{:-a :+c#}
+ 1/8 :-2a :+f# #{:-2a :+f#} :c#
+ 1/4 :f#
+ 1/8 :-2b :-d #{:a :+c#} :-d #{:g :b} :-d
+ 1/4 #{:-a :+c#}
+ 1/2 #{:-e :d :g :a} #{:-e :d :e} #{:-2a :-g :d :e}
+ 1/4 #{:-2a :-a :c#}
+ 1/8 #{:e :d}
  
- {:length 1/8} #{:f# :a} #{:-g :g :b} #{:f# :a} #{:e :d}
- {:length 1/4} #{:d :f#}
- {:length 1/8} :-d :-g :-b :d :g
- {:length 1/4} :b
- {:length 1/8} #{:-g :g :b} #{:f# :a} #{:d :f#}
+ 1/8 #{:f# :a} #{:-g :g :b} #{:f# :a} #{:e :d}
+ 1/4 #{:d :f#}
+ 1/8 :-d :-g :-b :d :g
+ 1/4 :b
+ 1/8 #{:-g :g :b} #{:f# :a} #{:d :f#}
  
- {:length 1/8} #{:e :d} #{:-d :f#} :-a :d :f#
- {:length 1/2} :+d
- {:length 1/4} :+d :+c# :b
+ 1/8 #{:e :d} #{:-d :f#} :-a :d :f#
+ 1/2 :+d
+ 1/4 :+d :+c# :b
  
- {:length 1/2} #{:-e :d :g :a} #{:-f# :-a :c# :e}
- {:length 1/16} :e :f#
- {:length 1/8} #{:-g :g} :f# :e
- {:length 1/2} :d
+ 1/2 #{:-e :d :g :a} #{:-f# :-a :c# :e}
+ 1/16 :e :f#
+ 1/8 #{:-g :g} :f# :e
+ 1/2 :d
  
- {:length 1/8} :-g :+d :b :a :+f# :+c# :b :g
+ 1/8 :-g :+d :b :a :+f# :+c# :b :g
  #{:-d :-a :e :f#} :a
- {:length 1/2} #{:f# :+d}
+ 1/2 #{:f# :+d}
  
- {:length 1/8} #{:-2a :c :+c} :a
- {:length 1/2} #{:c :e}]
+ 1/8 #{:-2a :c :+c} :a
+ 1/2 #{:c :e}]

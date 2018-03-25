@@ -93,8 +93,8 @@
   [(al/pause (al/duration (al/note-length (/ 1 length))))
    parent-attrs])
 
-(defmethod build-score :octave [[_ octave] parent-attrs]
-  [nil (update parent-attrs :octave + octave)])
+(defmethod build-score :length [[_ length] parent-attrs]
+  [nil (assoc parent-attrs :length length)])
 
 (defmethod build-score :default [[subscore-name] parent-attrs]
   (throw (Exception. (str subscore-name " not recognized"))))

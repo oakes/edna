@@ -1,92 +1,38 @@
-[[:guitar
-  {:octave 3 :length 1/8} :b +1 :c
-  {:length 1/4} :d -1 :b +1 :c -1 :a :b :g :a]
- [:banjo
-  {:octave 3 :length 1/8} :b +1 :c
-  {:length 1/4} :d -1 :b +1 :c -1 :a :b :g :a]
- [:guitar
-  {:octave 3 :length 1/8} :b +1 :c
-  {:length 1/4} :d -1 :b +1 :c -1 :a :b :g :a]
- [:guitar
-  {:octave 3 :length 1} :d
-  {:length 1/4} :g :g :a :b :g :b
-  {:length 1} :a]
+[[:guitar {:octave 3} 1/8 :b :+c 1/4 :+d :b :+c :a :b :g :a]
+ [:banjo {:octave 3} 1/8 :b :+c 1/4 :+d :b :+c :a :b :g :a]
+ [:guitar {:octave 3} 1/8 :b :+c 1/4 :+d :b :+c :a :b :g :a]
+ [:guitar {:octave 3} 1 :d 1/4 :g :g :a :b :g :b 1 :a]
  
- [:banjo
-  {:octave 3 :length 1/4} :g :g :a :b
-  {:length 1} :g]
+ [:banjo {:octave 3} 1/4 :g :g :a :b 1 :g]
  
- [:guitar
-  {:octave 2 :length 1/8} :g :g
-  {:length 1/4} :g :a :b +1 :c :d :c -1
-  {:length 1} :b]
- [:banjo
-  {:octave 3 :length 1/8} :g :g
-  {:length 1/4} :g :a :b +1 :c :d :c -1
-  {:length 1} :b]
- [:guitar
-  {:octave 2 :length 1/8} :g :g
-  {:length 1/4} :g :a :b +1 :c :d :c -1
-  {:length 1} :b]
- [:banjo
-  {:octave 3 :length 1/8} :g :g
-  {:length 1/4} :g :a :b +1 :c :d :c -1
-  {:length 1} :b]
- [:guitar
-  {:octave 3 :length 1/8} :g :g
-  {:length 1/4} :g :a :b +1 :c :d :c -1
-  {:length 1} :b]
- [:banjo
-  {:octave 3 :length 1/8} :g :g
-  {:length 1/4} :g :a :b +1 :c :d :c -1
-  {:length 1} :b]
+ [:guitar {:octave 2} 1/8 :g :g 1/4 :g :a :b :+c :+d :+c 1 :b]
+ [:banjo {:octave 3} 1/8 :g :g 1/4 :g :a :b :+c :+d :+c 1 :b]
+ [:guitar {:octave 2} 1/8 :g :g 1/4 :g :a :b :+c :+d :+c 1 :b]
+ [:banjo {:octave 3} 1/8 :g :g 1/4 :g :a :b :+c :+d :+c 1 :b]
+ [:guitar {:octave 3} 1/8 :g :g 1/4 :g :a :b :+c :+d :+c 1 :b]
+ [:banjo {:octave 3} 1/8 :g :g 1/4 :g :a :b :+c :+d :+c 1 :b]
  
- [:guitar
-  {:octave 4 :length 1/8} #{:d :-b :-g} #{:d :-b :-g}
-  {:length 1/4} #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]
- [:banjo
-  {:octave 4 :length 1/8} #{:d :-b :-g} #{:d :-b :-g}
-  {:length 1/4} #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]
- [:guitar
-  {:octave 4 :length 1/8} #{:d :-b :-g} #{:d :-b :-g}
-  {:length 1/4} #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]
- [:banjo
-  {:octave 4 :length 1/8} #{:d :-b :-g} #{:d :-b :-g}
-  {:length 1/4} #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]
+ [:guitar {:octave 4}
+  1/8 #{:d :-b :-g} #{:d :-b :-g}
+  1/4 #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]
+ [:banjo {:octave 4}
+  1/8 #{:d :-b :-g} #{:d :-b :-g}
+  1/4 #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]
+ [:guitar {:octave 4}
+  1/8 #{:d :-b :-g} #{:d :-b :-g}
+  1/4 #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]
+ [:banjo {:octave 4}
+  1/8 #{:d :-b :-g} #{:d :-b :-g}
+  1/4 #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]
  
- [:guitar
-  {:octave 2 :length 1/8} :b +1 :c
-  {:length 1/4} :d -1 :b +1 :c -1 :a :b :g :a]
- [:banjo
-  {:octave 3 :length 1/8} :b +1 :c
-  {:length 1/4} :d -1 :b +1 :c -1 :a :b :g :a]
+ [:guitar {:octave 2} 1/8 :b :+c 1/4 :+d :b :+c :a :b :g :a]
+ [:banjo {:octave 3} 1/8 :b :+c 1/4 :+d :b :+c :a :b :g :a]
  
- #{[:banjo
-    {:octave 3 :length 1/16} :b +1 :c
-    {:length 1/8} :d -1 :b +1 :c -1 :a :b :g :a]
-   [:guitar
-    {:octave 3 :length 1/16} :r :r
-    {:length 1/8} :g :r :d :r :g :g :d]}
- #{[:banjo
-    {:octave 3 :length 1/16} :b +1 :c
-    {:length 1/8} :d -1 :b +1 :c -1 :a :b :g :a]
-   [:guitar
-    {:octave 3 :length 1/16} :r :r
-    {:length 1/8} :g :r :d :r :g :g :d]}
- #{[:banjo
-    {:octave 3 :length 1/16} :b +1 :c
-    {:length 1/8} :d -1 :b +1 :c -1 :a :b :g :a]
-   [:guitar
-    {:octave 3 :length 1/4} :g
-    {:length 1/8} :a :b
-    {:length 1/4} :g
-    {:length 1/8} :a :d]}
- #{[:banjo
-    {:octave 3 :length 1/16} :b +1 :c
-    {:length 1/8} :d -1 :b +1 :c -1 :a :b :g :a]
-   [:guitar
-    {:octave 3 :length 1/4} :g
-    {:length 1/8} :a :b
-    {:length 1/4} :g
-    {:length 1/8} #{:f :-a} :b
-    {:length 1/4} :c]}]
+ #{[:banjo {:octave 3} 1/16 :b :+c 1/8 :+d :b :+c :a :b :g :a]
+   [:guitar {:octave 3} 1/16 :r :r 1/8 :g :r :d :r :g :g :d]}
+ #{[:banjo {:octave 3} 1/16 :b :+c 1/8 :+d :b :+c :a :b :g :a]
+   [:guitar {:octave 3} 1/16 :r :r 1/8 :g :r :d :r :g :g :d]}
+ #{[:banjo {:octave 3} 1/16 :b :+c  1/8 :+d :b :+c :a :b :g :a]
+   [:guitar {:octave 3} 1/4 :g  1/8 :a :b  1/4 :g 1/8 :a :d]}
+ #{[:banjo {:octave 3} 1/16 :b :+c 1/8 :+d :b :+c :a :b :g :a]
+   [:guitar {:octave 3} 1/4 :g 1/8 :a :b 1/4 :g 1/8 #{:f :-a} :b 1/4 :c]}]

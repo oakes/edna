@@ -30,9 +30,9 @@
 (s/def ::note note?)
 (s/def ::rest #{:r})
 
-(s/def ::octave number?)
+(s/def ::octave integer?)
 (s/def ::length number?)
-(s/def ::tempo number?)
+(s/def ::tempo integer?)
 (s/def ::attrs (s/keys :opt-un [::octave ::length ::tempo ::note]))
 (s/def ::note-attrs (s/keys :opt-un [::octave ::length ::tempo] :req-un [::note]))
 
@@ -50,7 +50,7 @@
 (s/def ::subscore (s/alt
                     :note ::note
                     :rest ::rest
-                    :octave integer?
+                    :length ::length
                     :attrs ::attrs
                     :chord ::chord
                     :concurrent-score (s/coll-of ::score :kind set?)
