@@ -56,9 +56,11 @@
     [nil (merge parent-attrs attrs)]))
 
 (defmethod build-score :note [[_ note]
-                              {:keys [octave length tempo
+                              {:keys [instrument octave length tempo
                                       sibling-id parent-ids]
                                :as parent-attrs}]
+  (when-not instrument
+    (throw (Exception. (str "Can't play " note " without specifying an instrument"))))
   (let [id (inc (or sibling-id 0))
         {:keys [note pitch octave-op octaves]} (parse-note note)
         note (keyword (str note))
@@ -106,7 +108,7 @@
   (throw (Exception. (str subscore-name " not recognized"))))
 
 (defn edna->alda [content]
-  (first (build-score [:score (parse content)] default-attrs)))
+  (first (build-score (parse content) default-attrs)))
 
 (defn stop! [*score]
   (when @*score

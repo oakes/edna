@@ -47,7 +47,7 @@
                    :instrument (s/? instruments)
                    :subscores (s/* ::subscore)))
 
-(s/def ::subscore (s/alt
+(s/def ::subscore (s/or
                     :note ::note
                     :rest ::rest
                     :length ::length
@@ -57,10 +57,8 @@
                     :score (s/spec ::score)))
 
 (defn parse [content]
-  (when-not (vector? content)
-    (throw (Exception. "Input value must be a vector")))
-  (let [res (s/conform ::score content)]
+  (let [res (s/conform ::subscore content)]
     (if (= res :clojure.spec.alpha/invalid)
-      (throw (Exception. (s/explain-str ::score content)))
+      (throw (Exception. (s/explain-str ::subscore content)))
       res)))
 
