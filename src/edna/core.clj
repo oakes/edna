@@ -32,7 +32,13 @@
 
 (defmethod build-score :concurrent-score [[_ scores]
                                           {:keys [sibling-id parent-ids] :as parent-attrs}]
-  (let [id (inc (or sibling-id 0))]
+  (let [id (inc (or sibling-id 0))
+        instruments (map :instrument scores)]
+    (when (not= (count instruments) (count (set instruments)))
+      (throw (Exception. (str
+                           "Can't use the same instrument "
+                           "multiple times in the same set "
+                           "(this limitation my change eventually)"))))
     [(al/part {}
        (reduce
          (fn [scores score]
@@ -114,6 +120,7 @@
          (now/play! (edna->alda content)))))))
 
 (defonce *my-score (atom nil))
+
 #_
 (play! *my-score
   (-> "examples/dueling-banjos.edn" slurp edn/read-string))
