@@ -108,18 +108,19 @@
 (defn edna->alda [content]
   (first (build-score [:score (parse content)] default-attrs)))
 
-(defn play!
-  ([*score]
-   (play! *score []))
-  ([*score content]
-   (when @*score
-     (now/tear-down! *score))
-   (reset! *score
-     (deref
-       (now/with-new-score
-         (now/play! (edna->alda content)))))))
+(defn stop! [*score]
+  (when @*score
+    (now/tear-down! *score)))
+
+(defn play! [*score content]
+  (reset! *score
+    (deref
+      (now/with-new-score
+        (now/play! (edna->alda content))))))
 
 (defonce *my-score (atom nil))
+
+(stop! *my-score)
 
 #_
 (play! *my-score
