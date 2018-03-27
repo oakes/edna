@@ -5,7 +5,9 @@
             [clojure.edn :as edn]
             [clojure.string :as str]))
 
-(def default-attrs {:octave 4 :length 1/4 :tempo 120 :parent-ids []})
+(def default-attrs {:octave 4 :length 1/4 :tempo 120
+                    :pan 50 :quantize 90 :transpose 0
+                    :volume 100 :parent-ids []})
 
 (defmulti build-score (fn [val parent-attrs] (first val)))
 
@@ -57,6 +59,7 @@
 
 (defmethod build-score :note [[_ note]
                               {:keys [instrument octave length tempo
+                                      pan quantize transpose volume
                                       sibling-id parent-ids]
                                :as parent-attrs}]
   (when-not instrument
@@ -77,6 +80,10 @@
         (al/at-marker (str/join "." (conj parent-ids sibling-id))))
       (al/octave (+ octave octave-change))
       (al/tempo tempo)
+      (al/pan pan)
+      (al/quantize quantize)
+      (al/transpose transpose)
+      (al/volume volume)
       (al/note
         (or (some->> accidental (al/pitch note))
             (al/pitch note))

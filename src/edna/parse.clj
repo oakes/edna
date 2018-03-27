@@ -33,7 +33,12 @@
 (s/def ::octave integer?)
 (s/def ::length number?)
 (s/def ::tempo integer?)
-(s/def ::attrs (s/keys :opt-un [::octave ::length ::tempo ::note]))
+(s/def ::pan #(<= 0 % 100))
+(s/def ::quantize #(<= 0 % 100))
+(s/def ::transpose integer?)
+(s/def ::volume #(<= 0 % 100))
+(s/def ::attrs (s/keys :opt-un [::note ::octave ::length ::tempo
+                                ::pan ::quantize ::transpose ::volume]))
 
 (s/def ::chord (s/coll-of
                  (s/or
