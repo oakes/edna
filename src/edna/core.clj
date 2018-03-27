@@ -119,27 +119,27 @@
 (defn edna->alda [content]
   (first (build-score (parse/parse content) default-attrs)))
 
-(defn stop! [*score]
-  (when @*score
-    (now/tear-down! *score)))
+(defn stop! [*state]
+  (some->> @*state :scores (run! now/tear-down!))
+  (swap! *state dissoc :scores)
+  nil)
 
-(defn play! [*score content]
+(defn play! [*state content]
   (let [content (or (parse/find-focus content) content)]
-    (reset! *score
-      (deref
-        (now/with-new-score
-          (now/play! (edna->alda content)))))
+    (swap! *state update :scores conj
+      (now/with-new-score
+        (now/play! (edna->alda content))))
     content))
 
-(defonce *my-score (atom nil))
+(defonce *state (atom nil))
 
-(stop! *my-score)
+(stop! *state)
 
 #_
-(play! *my-score
+(play! *state
   (-> "examples/dueling-banjos.edn" slurp edn/read-string))
 
 #_
-(play! *my-score
+(play! *state
   (-> "examples/aeriths-theme.edn" slurp edn/read-string))
 
