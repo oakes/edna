@@ -62,12 +62,13 @@
   (when-not instrument
     (throw (Exception. (str "Can't play " note " without specifying an instrument"))))
   (let [id (inc (or sibling-id 0))
-        {:keys [note pitch octave-op octaves]} (parse-note note)
+        {:keys [note accidental octave-op octaves]} (parse-note note)
         note (keyword (str note))
-        pitch (case pitch
-                \# :sharp
-                \= :flat
-                :natural)
+        accidental (case accidental
+                     \# :sharp
+                     \= :flat
+                     \_ :natural
+                     nil)
         octaves (or octaves
                     (if octave-op [\1] [\0]))
         octave-change (cond-> (Integer/valueOf (str/join octaves))
@@ -77,7 +78,8 @@
       (al/octave (+ octave octave-change))
       (al/tempo tempo)
       (al/note
-        (al/pitch note pitch)
+        (or (some->> accidental (al/pitch note))
+            (al/pitch note))
         (al/duration (al/note-length (/ 1 length))))
       (al/marker (str/join "." (conj parent-ids id)))]
      (assoc parent-attrs :sibling-id id)]))

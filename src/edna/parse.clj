@@ -11,13 +11,13 @@
 
 (def notes #{\c \d \e \f \g \a \b})
 
-(def pitches #{\# \= \_})
+(def accidentals #{\# \= \_})
 
 (s/def ::note-parts (s/cat
                       :octave-op (s/? octave-operators)
                       :octaves (s/* digits)
                       :note notes
-                      :pitch (s/* pitches)))
+                      :accidental (s/* accidentals)))
 
 (defn parse-note [note]
   (if-not (keyword? note)
@@ -34,13 +34,12 @@
 (s/def ::length number?)
 (s/def ::tempo integer?)
 (s/def ::attrs (s/keys :opt-un [::octave ::length ::tempo ::note]))
-(s/def ::note-attrs (s/keys :opt-un [::octave ::length ::tempo] :req-un [::note]))
 
 (s/def ::chord (s/coll-of
                  (s/or
                    :note ::note
                    :rest ::rest
-                   :attrs ::note-attrs)
+                   :attrs (s/merge ::attrs (s/keys :req-un [::note])))
                  :kind set?))
 
 (s/def ::score (s/cat
