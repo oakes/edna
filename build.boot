@@ -34,7 +34,7 @@
 (task-options!
   pom {:project 'edna
        :version "1.0.0-SNAPSHOT"
-       :description "A library for writing Alda scores as edn data"
+       :description "A Clojure data -> music library"
        :url "https://github.com/oakes/edna"
        :license {"Public Domain" "http://unlicense.org/UNLICENSE"}}
   push {:repo "clojars"})
