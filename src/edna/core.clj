@@ -50,58 +50,65 @@
 
 (defmethod build-score :attrs [[_ {:keys [note] :as attrs}] parent-attrs]
   (if note
-    [(first (build-score [:note note] (merge parent-attrs attrs)))
-     parent-attrs]
+    (let [[note {:keys [sibling-id]}] (build-score [:note note] (merge parent-attrs attrs))]
+      [note (assoc parent-attrs :sibling-id sibling-id)])
     [nil (merge parent-attrs attrs)]))
 
 (defmethod build-score :note [[_ note]
                               {:keys [instrument octave length tempo
                                       pan quantize transpose volume
-                                      sibling-id parent-ids]
+                                      sibling-id parent-ids
+                                      use-focus? focus?]
                                :as parent-attrs}]
   (when-not instrument
     (throw (Exception. (str "Can't play " note " without specifying an instrument"))))
-  (let [id (inc (or sibling-id 0))
-        {:keys [note accidental octave-op octaves]} (parse/parse-note note)
-        note (keyword (str note))
-        accidental (case accidental
-                     \# :sharp
-                     \= :flat
-                     \_ :natural
-                     nil)
-        octaves (or octaves
-                    (if octave-op [\1] [\0]))
-        octave-change (cond-> (Integer/valueOf (str/join octaves))
-                              (= \- octave-op) (* -1))]
-    [[(when sibling-id
-        (al/at-marker (str/join "." (conj parent-ids sibling-id))))
-      (al/octave (+ octave octave-change))
-      (al/tempo tempo)
-      (al/pan pan)
-      (al/quantize quantize)
-      (al/transpose transpose)
-      (al/volume volume)
-      (al/note
-        (or (some->> accidental (al/pitch note))
-            (al/pitch note))
-        (al/duration (al/note-length (/ 1 length))))
-      (al/marker (str/join "." (conj parent-ids id)))]
-     (assoc parent-attrs :sibling-id id)]))
+  (if (and use-focus? (not focus?))
+    [nil parent-attrs]
+    (let [id (inc (or sibling-id 0))
+          {:keys [note accidental octave-op octaves]} (parse/parse-note note)
+          note (keyword (str note))
+          accidental (case accidental
+                       \# :sharp
+                       \= :flat
+                       \_ :natural
+                       nil)
+          octaves (or octaves
+                      (if octave-op [\1] [\0]))
+          octave-change (cond-> (Integer/valueOf (str/join octaves))
+                                (= \- octave-op) (* -1))]
+      [[(when sibling-id
+          (al/at-marker (str/join "." (conj parent-ids sibling-id))))
+        (al/octave (+ octave octave-change))
+        (al/tempo tempo)
+        (al/pan pan)
+        (al/quantize quantize)
+        (al/transpose transpose)
+        (al/volume volume)
+        (al/note
+          (or (some->> accidental (al/pitch note))
+              (al/pitch note))
+          (al/duration (al/note-length (/ 1 length))))
+        (al/marker (str/join "." (conj parent-ids id)))]
+       (assoc parent-attrs :sibling-id id)])))
 
 (defmethod build-score :chord [[_ chord]
-                               {:keys [sibling-id parent-ids] :as parent-attrs}]
-  (let [id (inc (or sibling-id 0))
-        attrs (-> parent-attrs
-                  (assoc :parent-ids (conj parent-ids id))
-                  (dissoc :sibling-id))]
-    [[(when sibling-id
-        (al/at-marker (str/join "." (conj parent-ids sibling-id))))
-      (apply al/chord
-        (map (fn [note]
-               (first (build-score note attrs)))
-          chord))
-      (al/marker (str/join "." (conj parent-ids id)))]
-     (assoc parent-attrs :sibling-id id)]))
+                               {:keys [sibling-id parent-ids
+                                       use-focus? focus?]
+                                :as parent-attrs}]
+  (if (and use-focus? (not focus?))
+    [nil parent-attrs]
+    (let [id (inc (or sibling-id 0))
+          attrs (-> parent-attrs
+                    (assoc :parent-ids (conj parent-ids id))
+                    (dissoc :sibling-id))]
+      [[(when sibling-id
+          (al/at-marker (str/join "." (conj parent-ids sibling-id))))
+        (apply al/chord
+          (map (fn [note]
+                 (first (build-score note attrs)))
+            chord))
+        (al/marker (str/join "." (conj parent-ids id)))]
+       (assoc parent-attrs :sibling-id id)])))
 
 (defmethod build-score :rest [[_ _] {:keys [length] :as parent-attrs}]
   [(al/pause (al/duration (al/note-length (/ 1 length))))
@@ -114,14 +121,15 @@
   (throw (Exception. (str subscore-name " not recognized"))))
 
 (defn edna->alda [content]
-  (first (build-score (parse/parse content) default-attrs)))
+  (->> (assoc default-attrs :use-focus? (parse/has-focus? content))
+       (build-score (parse/parse content))
+       first))
 
 (defn stop! [score]
   (some-> score now/tear-down!)
   nil)
 
 (defn play! [content]
-  (let [content (or (parse/find-focus content) content)]
-    (now/with-new-score
-      (now/play! (edna->alda content)))))
+  (now/with-new-score
+    (now/play! (edna->alda content))))
 

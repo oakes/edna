@@ -38,8 +38,10 @@
 (s/def ::quantize #(<= 0 % 100))
 (s/def ::transpose integer?)
 (s/def ::volume #(<= 0 % 100))
+(s/def ::focus? boolean?)
 (s/def ::attrs (s/keys :opt-un [::note ::octave ::length ::tempo
-                                ::pan ::quantize ::transpose ::volume]))
+                                ::pan ::quantize ::transpose
+                                ::volume ::focus?]))
 
 (s/def ::chord (s/coll-of
                  (s/or
@@ -67,12 +69,11 @@
       (throw (Exception. (s/explain-str ::subscore content)))
       res)))
 
-(def COLL-VALUES (sp/recursive-path [] p
-                   (sp/if-path coll? (sp/stay-then-continue [sp/ALL p]))))
+(def MAP-VALUES (sp/recursive-path [] p
+                  (sp/if-path map?
+                    sp/STAY
+                    (sp/if-path coll? [sp/ALL p]))))
 
-(defn find-focus [coll]
-  (let [res (sp/select [COLL-VALUES #(-> % meta :focus)] coll)]
-    (if (> (count res) 1)
-      (throw (Exception. "Found more than one part with ^:focus metadata attached"))
-      (first res))))
+(defn has-focus? [coll]
+  (pos? (count (sp/select [MAP-VALUES #(contains? % :focus?)] coll))))
 
