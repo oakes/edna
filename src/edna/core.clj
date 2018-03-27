@@ -1,7 +1,7 @@
 (ns edna.core
   (:require [alda.lisp :as al]
             [alda.now :as now]
-            [edna.parse :refer [parse parse-note]]
+            [edna.parse :as parse]
             [clojure.edn :as edn]
             [clojure.string :as str]))
 
@@ -65,7 +65,7 @@
   (when-not instrument
     (throw (Exception. (str "Can't play " note " without specifying an instrument"))))
   (let [id (inc (or sibling-id 0))
-        {:keys [note accidental octave-op octaves]} (parse-note note)
+        {:keys [note accidental octave-op octaves]} (parse/parse-note note)
         note (keyword (str note))
         accidental (case accidental
                      \# :sharp
@@ -117,17 +117,19 @@
   (throw (Exception. (str subscore-name " not recognized"))))
 
 (defn edna->alda [content]
-  (first (build-score (parse content) default-attrs)))
+  (first (build-score (parse/parse content) default-attrs)))
 
 (defn stop! [*score]
   (when @*score
     (now/tear-down! *score)))
 
 (defn play! [*score content]
-  (reset! *score
-    (deref
-      (now/with-new-score
-        (now/play! (edna->alda content))))))
+  (let [content (or (parse/find-focus content) content)]
+    (reset! *score
+      (deref
+        (now/with-new-score
+          (now/play! (edna->alda content)))))
+    content))
 
 (defonce *my-score (atom nil))
 

@@ -1,7 +1,8 @@
 (ns edna.parse
   (:require [clojure.spec.alpha :as s]
             [alda.lisp.instruments.midi]
-            [alda.lisp.model.instrument :refer [*stock-instruments*]]))
+            [alda.lisp.model.instrument :refer [*stock-instruments*]]
+            [com.rpl.specter :as sp]))
 
 (def instruments (->> *stock-instruments* keys (map keyword) set))
 
@@ -65,4 +66,13 @@
     (if (= res :clojure.spec.alpha/invalid)
       (throw (Exception. (s/explain-str ::subscore content)))
       res)))
+
+(def COLL-VALUES (sp/recursive-path [] p
+                   (sp/if-path coll? (sp/stay-then-continue [sp/ALL p]))))
+
+(defn find-focus [coll]
+  (let [res (sp/select [COLL-VALUES #(-> % meta :focus)] coll)]
+    (if (> (count res) 1)
+      (throw (Exception. "Found more than one part with ^:focus metadata attached"))
+      (first res))))
 
