@@ -10,12 +10,10 @@
 
 (defmulti build-score (fn [val parent-attrs] (first val)))
 
-(defmethod build-score :score [[_ {:keys [instrument subscores]}]
+(defmethod build-score :score [[_ {:keys [subscores] :as score}]
                                {:keys [sibling-id parent-ids] :as parent-attrs}]
   (let [id (inc (or sibling-id 0))
-        attrs (if instrument
-                (assoc parent-attrs :instrument instrument)
-                parent-attrs)]
+        {:keys [instrument] :as attrs} (merge parent-attrs (select-keys score [:instrument]))]
     [(al/part (if instrument (name instrument) {})
        (when sibling-id
          (al/at-marker (str/join "." (conj parent-ids sibling-id))))
