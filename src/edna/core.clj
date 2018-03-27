@@ -2,7 +2,6 @@
   (:require [alda.lisp :as al]
             [alda.now :as now]
             [edna.parse :as parse]
-            [clojure.edn :as edn]
             [clojure.string :as str]))
 
 (def default-attrs {:octave 4 :length 1/4 :tempo 120
@@ -119,27 +118,12 @@
 (defn edna->alda [content]
   (first (build-score (parse/parse content) default-attrs)))
 
-(defn stop! [*state]
-  (some->> @*state :scores (run! now/tear-down!))
-  (swap! *state dissoc :scores)
+(defn stop! [score]
+  (some-> score now/tear-down!)
   nil)
 
-(defn play! [*state content]
+(defn play! [content]
   (let [content (or (parse/find-focus content) content)]
-    (swap! *state update :scores conj
-      (now/with-new-score
-        (now/play! (edna->alda content))))
-    content))
-
-(defonce *state (atom nil))
-
-(stop! *state)
-
-#_
-(play! *state
-  (-> "examples/dueling-banjos.edn" slurp edn/read-string))
-
-#_
-(play! *state
-  (-> "examples/aeriths-theme.edn" slurp edn/read-string))
+    (now/with-new-score
+      (now/play! (edna->alda content)))))
 
