@@ -27,9 +27,7 @@
                                 :username (System/getenv "CLOJARS_USER")
                                 :password (System/getenv "CLOJARS_PASS")}])))
 
-(require
-  '[alda.now]
-  '[nightlight.boot :refer [nightlight]])
+(require '[nightlight.boot :refer [nightlight]])
 
 (task-options!
   pom {:project 'edna
@@ -42,6 +40,8 @@
 (deftask run []
   (comp
     (wait)
+    (with-pass-thru _
+      (require 'alda.now))
     (nightlight :port 4000)))
 
 (deftask local []
