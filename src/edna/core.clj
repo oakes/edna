@@ -95,9 +95,13 @@
        (assoc parent-attrs :sibling-id id)])))
 
 (defmethod build-score :chord [[_ chord]
-                               {:keys [sibling-id parent-ids
+                               {:keys [instrument sibling-id parent-ids
                                        use-focus? focus?]
                                 :as parent-attrs}]
+  (when-not instrument
+    (throw (Exception. (str "Can't play "
+                         (set (map second chord))
+                         " without specifying an instrument"))))
   (if (and use-focus? (not focus?))
     [nil parent-attrs]
     (let [id (inc (or sibling-id 0))
