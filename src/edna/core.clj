@@ -79,19 +79,20 @@
                       (if octave-op [\1] [\0]))
           octave-change (cond-> (Integer/valueOf (str/join octaves))
                                 (= \- octave-op) (* -1))]
-      [[(when sibling-id
-          (ale/at-marker (str/join "." (conj parent-ids sibling-id))))
-        (ala/octave (+ octave octave-change))
-        (ala/tempo tempo)
-        (ala/pan pan)
-        (ala/quantize quantize)
-        (ala/transpose transpose)
-        (ala/volume volume)
-        (ale/note
-          (or (some->> accidental (almp/pitch note))
-              (almp/pitch note))
-          (almd/duration (almd/note-length (/ 1 length))))
-        (ale/marker (str/join "." (conj parent-ids id)))]
+      [(ale/part (name instrument)
+         (when sibling-id
+           (ale/at-marker (str/join "." (conj parent-ids sibling-id))))
+         (ala/octave (+ octave octave-change))
+         (ala/tempo tempo)
+         (ala/pan pan)
+         (ala/quantize quantize)
+         (ala/transpose transpose)
+         (ala/volume volume)
+         (ale/note
+           (or (some->> accidental (almp/pitch note))
+               (almp/pitch note))
+           (almd/duration (almd/note-length (/ 1 length))))
+         (ale/marker (str/join "." (conj parent-ids id))))
        (assoc parent-attrs :sibling-id id)])))
 
 (defmethod build-score :chord [[_ chord]
@@ -107,18 +108,24 @@
           attrs (-> parent-attrs
                     (assoc :parent-ids (conj parent-ids id))
                     (dissoc :sibling-id))]
-      [[(when sibling-id
-          (ale/at-marker (str/join "." (conj parent-ids sibling-id))))
-        (apply ale/chord
-          (map (fn [note]
-                 (first (build-score note attrs)))
-            chord))
-        (ale/marker (str/join "." (conj parent-ids id)))]
+      [(ale/part (name instrument)
+         (when sibling-id
+           (ale/at-marker (str/join "." (conj parent-ids sibling-id))))
+         (apply ale/chord
+           (map (fn [note]
+                  (first (build-score note attrs)))
+             chord))
+         (ale/marker (str/join "." (conj parent-ids id))))
        (assoc parent-attrs :sibling-id id)])))
 
-(defmethod build-score :rest [[_ _] {:keys [length] :as parent-attrs}]
-  [(ale/pause (almd/duration (almd/note-length (/ 1 length))))
-   parent-attrs])
+(defmethod build-score :rest [[_ _] {:keys [length sibling-id parent-ids]
+                                     :as parent-attrs}]
+  (let [id (inc (or sibling-id 0))]
+    [[(when sibling-id
+        (ale/at-marker (str/join "." (conj parent-ids sibling-id))))
+      (ale/pause (almd/duration (almd/note-length (/ 1 length))))
+      (ale/marker (str/join "." (conj parent-ids id)))]
+     (assoc parent-attrs :sibling-id id)]))
 
 (defmethod build-score :length [[_ length] parent-attrs]
   [nil (assoc parent-attrs :length length)])
