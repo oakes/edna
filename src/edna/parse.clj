@@ -1,8 +1,7 @@
 (ns edna.parse
   (:require [clojure.spec.alpha :as s]
             [alda.lisp.instruments.midi]
-            [alda.lisp.model.instrument :refer [*stock-instruments*]]
-            [com.rpl.specter :as sp]))
+            [alda.lisp.model.instrument :refer [*stock-instruments*]]))
 
 (def instruments (->> *stock-instruments* keys (map keyword) set))
 
@@ -38,10 +37,10 @@
 (s/def ::quantize #(<= 0 % 100))
 (s/def ::transpose integer?)
 (s/def ::volume #(<= 0 % 100))
-(s/def ::focus? boolean?)
+(s/def ::play? boolean?)
 (s/def ::attrs (s/keys :opt-un [::note ::octave ::length ::tempo
                                 ::pan ::quantize ::transpose
-                                ::volume ::focus?]))
+                                ::volume ::play?]))
 
 (s/def ::chord (s/coll-of
                  (s/or
@@ -68,12 +67,4 @@
     (if (= res :clojure.spec.alpha/invalid)
       (throw (Exception. (s/explain-str ::subscore content)))
       res)))
-
-(def MAP-VALUES (sp/recursive-path [] p
-                  (sp/if-path map?
-                    sp/STAY
-                    (sp/if-path coll? [sp/ALL p]))))
-
-(defn has-focus? [coll]
-  (pos? (count (sp/select [MAP-VALUES #(contains? % :focus?)] coll))))
 

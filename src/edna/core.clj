@@ -9,7 +9,7 @@
 
 (def default-attrs {:octave 4 :length 1/4 :tempo 120
                     :pan 50 :quantize 90 :transpose 0
-                    :volume 100 :parent-ids []})
+                    :volume 100 :parent-ids [] :play? true})
 
 (defmulti build-score (fn [val parent-attrs] (first val)))
 
@@ -60,12 +60,11 @@
 (defmethod build-score :note [[_ note]
                               {:keys [instrument octave length tempo
                                       pan quantize transpose volume
-                                      sibling-id parent-ids
-                                      use-focus? focus?]
+                                      sibling-id parent-ids play?]
                                :as parent-attrs}]
   (when-not instrument
     (throw (Exception. (str "Can't play " note " without specifying an instrument"))))
-  (if (and use-focus? (not focus?))
+  (if-not play?
     [nil parent-attrs]
     (let [id (inc (or sibling-id 0))
           {:keys [note accidental octave-op octaves]} (parse/parse-note note)
@@ -95,14 +94,13 @@
        (assoc parent-attrs :sibling-id id)])))
 
 (defmethod build-score :chord [[_ chord]
-                               {:keys [instrument sibling-id parent-ids
-                                       use-focus? focus?]
+                               {:keys [instrument sibling-id parent-ids play?]
                                 :as parent-attrs}]
   (when-not instrument
     (throw (Exception. (str "Can't play "
                          (set (map second chord))
                          " without specifying an instrument"))))
-  (if (and use-focus? (not focus?))
+  (if-not play?
     [nil parent-attrs]
     (let [id (inc (or sibling-id 0))
           attrs (-> parent-attrs
@@ -128,7 +126,7 @@
   (throw (Exception. (str subscore-name " not recognized"))))
 
 (defn edna->alda [content]
-  (->> (assoc default-attrs :use-focus? (parse/has-focus? content))
+  (->> default-attrs
        (build-score (parse/parse content))
        first))
 
