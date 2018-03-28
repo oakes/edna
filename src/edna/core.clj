@@ -1,5 +1,6 @@
 (ns edna.core
   (:require [alda.now :as now]
+            [alda.sound :as sound]
             [edna.parse :as parse]
             [clojure.string :as str]
             [alda.lisp.events :as ale]
@@ -131,10 +132,9 @@
        first))
 
 (defn stop! [score]
-  (some-> score now/tear-down!)
+  (some-> score sound/tear-down!)
   nil)
 
 (defn play! [content]
-  (now/with-new-score
-    (now/play! (edna->alda content))))
+  (-> content edna->alda now/play! now/with-new-score deref))
 
