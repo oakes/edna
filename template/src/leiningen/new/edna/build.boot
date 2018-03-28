@@ -12,5 +12,7 @@
 (deftask run []
   (comp
     (wait)
+    (with-pass-thru _
+      (require '{{namespace}}))
     (nightlight :port 4000)))
 
