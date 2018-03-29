@@ -1,8 +1,9 @@
 ## Introduction
 
-A Clojure library that wraps [Alda](https://github.com/alda-lang/alda) so you can write musical scores as edn data. You can start a [Boot](http://boot-clj.com/) project with the following command:
+A Clojure library for making music with edn data. It uses [Alda](https://github.com/alda-lang/alda) underneath. There are a few ways to create a project:
 
-`boot -d boot/new new -t edna -n hello-world`
+* [Boot](http://boot-clj.com/): `boot -d boot/new new -t edna -n hello-world`
+* [Nightcode](https://sekao.net/nightcode/): Choose "Music Project" from its start menu
 
 ## Tutorial
 
