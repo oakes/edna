@@ -17,7 +17,7 @@
                       :octave-op (s/? octave-operators)
                       :octaves (s/* digits)
                       :note notes
-                      :accidental (s/* accidentals)))
+                      :accidental (s/? accidentals)))
 
 (defn parse-note [note]
   (if-not (keyword? note)
