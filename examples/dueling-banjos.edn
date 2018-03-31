@@ -1,3 +1,4 @@
+; based on https://www.songsterr.com/a/wsa/charlie-daniels-band-dueling-banjos-tab-s28099t0
 [[:guitar {:octave 3} 1/8 :b :+c 1/4 :+d :b :+c :a :b :g :a]
  [:banjo {:octave 3} 1/8 :b :+c 1/4 :+d :b :+c :a :b :g :a]
  [:guitar {:octave 3} 1/8 :b :+c 1/4 :+d :b :+c :a :b :g :a]
