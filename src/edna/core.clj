@@ -70,7 +70,7 @@
     (let [id (inc (or sibling-id 0))
           {:keys [note accidental octave-op octaves]} (parse/parse-note note)
           note (keyword (str note))
-          accidental (case accidental
+          accidental (case (first accidental)
                        \# :sharp
                        \= :flat
                        \_ :natural
