@@ -1,34 +1,37 @@
 ; based on https://www.songsterr.com/a/wsa/charlie-daniels-band-dueling-banjos-tab-s28099t0
-[[:guitar {:octave 3} 1/8 :b :+c 1/4 :+d :b :+c :a :b :g :a]
- [:banjo {:octave 3} 1/8 :b :+c 1/4 :+d :b :+c :a :b :g :a]
- [:guitar {:octave 3} 1/8 :b :+c 1/4 :+d :b :+c :a :b :g :a]
- [:guitar {:octave 3} 1 :d 1/4 :g :g :a :b :g :b 1 :a]
+[{:tempo 80}
+ [:guitar {:octave 3} 1/16 :b :+c 1/8 :+d :b :+c :a :b :g :a]
+ [:banjo {:octave 3} 1/16 :b :+c 1/8 :+d :b :+c :a :b :g :a]
+ [:guitar {:octave 3} 1/16 :b :+c 1/8 :+d :b :+c :a :b :g :a]
  
- [:banjo {:octave 3} 1/4 :g :g :a :b 1 :g]
+ [:guitar {:octave 3} 1/2 :d 1/8 :g :g :a :b :g :b 1/2 :a]
  
- [:guitar {:octave 2} 1/8 :g :g 1/4 :g :a :b :+c :+d :+c 1 :b]
- [:banjo {:octave 3} 1/8 :g :g 1/4 :g :a :b :+c :+d :+c 1 :b]
- [:guitar {:octave 2} 1/8 :g :g 1/4 :g :a :b :+c :+d :+c 1 :b]
- [:banjo {:octave 3} 1/8 :g :g 1/4 :g :a :b :+c :+d :+c 1 :b]
- [:guitar {:octave 3} 1/8 :g :g 1/4 :g :a :b :+c :+d :+c 1 :b]
- [:banjo {:octave 3} 1/8 :g :g 1/4 :g :a :b :+c :+d :+c 1 :b]
+ [:banjo {:octave 3} 1/8 :g :g :a :b 1/2 :g]
+ 
+ [:guitar {:octave 2} 1/16 :g :g 1/8 :g :a :b :+c :+d :+c 1/2 :b]
+ [:banjo {:octave 3} 1/16 :g :g 1/8 :g :a :b :+c :+d :+c 1/2 :b]
+ [:guitar {:octave 2} 1/16 :g :g 1/8 :g :a :b :+c :+d :+c 1/2 :b]
+ [:banjo {:octave 3} 1/16 :g :g 1/8 :g :a :b :+c :+d :+c 1/2 :b]
+ [:guitar {:octave 3} 1/16 :g :g 1/8 :g :a :b :+c :+d :+c 1/2 :b]
+ [:banjo {:octave 3} 1/16 :g :g 1/8 :g :a :b :+c :+d :+c 1/2 :b]
  
  [:guitar {:octave 4}
-  1/8 #{:d :-b :-g} #{:d :-b :-g}
-  1/4 #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]
+  1/16 #{:d :-b :-g} #{:d :-b :-g}
+  1/8 #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]
  [:banjo {:octave 4}
-  1/8 #{:d :-b :-g} #{:d :-b :-g}
-  1/4 #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]
+  1/16 #{:d :-b :-g} #{:d :-b :-g}
+  1/8 #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]
  [:guitar {:octave 4}
-  1/8 #{:d :-b :-g} #{:d :-b :-g}
-  1/4 #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]
+  1/16 #{:d :-b :-g} #{:d :-b :-g}
+  1/8 #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]
  [:banjo {:octave 4}
-  1/8 #{:d :-b :-g} #{:d :-b :-g}
-  1/4 #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]
+  1/16 #{:d :-b :-g} #{:d :-b :-g}
+  1/8 #{:d :-b :-g} #{:e :c :-g} #{:d :-b :-g}]
  
- [:guitar {:octave 2} 1/8 :b :+c 1/4 :+d :b :+c :a :b :g :a]
- [:banjo {:octave 3} 1/8 :b :+c 1/4 :+d :b :+c :a :b :g :a]
+ [:guitar {:octave 2} 1/16 :b :+c 1/8 :+d :b :+c :a :b :g :a]
+ [:banjo {:octave 3} 1/16 :b :+c 1/8 :+d :b :+c :a :b :g :a]
  
+ {:tempo 120}
  #{[:banjo {:octave 3} 1/16 :b :+c 1/8 :+d :b :+c :a :b :g :a]
    [:guitar {:octave 3} 1/16 :r :r 1/8 :g :r :d :r :g :g :d]}
  #{[:banjo {:octave 3} 1/16 :b :+c 1/8 :+d :b :+c :a :b :g :a]
