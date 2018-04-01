@@ -5,6 +5,8 @@ A Clojure library for making music with edn data. It uses [Alda](https://github.
 * [Boot](http://boot-clj.com/): `boot -d boot/new new -t edna -n hello-world`
 * [Nightcode](https://sekao.net/nightcode/): Choose "Music Project" from its start menu
 
+Note that the default midi sounds from the JVM are low quality! You can improve it by [installing a soundfont](https://github.com/alda-lang/alda#midi-soundfonts).
+
 ## Tutorial
 
 ```clojure
