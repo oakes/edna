@@ -144,7 +144,5 @@
   nil)
 
 (defn play! [content]
-  (when-not midi/*midi-synth*
-    (midi/open-midi-synth!))
   (-> content edna->alda now/play! :score))
 
