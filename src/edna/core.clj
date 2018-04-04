@@ -6,8 +6,7 @@
             [alda.lisp.events :as ale]
             [alda.lisp.attributes :as ala]
             [alda.lisp.model.duration :as almd]
-            [alda.lisp.model.pitch :as almp]
-            [alda.sound.midi :as midi]))
+            [alda.lisp.model.pitch :as almp]))
 
 (def default-attrs {:octave 4 :length 1/4 :tempo 120
                     :pan 50 :quantize 90 :transpose 0
