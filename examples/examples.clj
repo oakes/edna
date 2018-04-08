@@ -8,6 +8,14 @@
 (swap! *state (partial run! edna/stop!))
 
 #_
+(swap! *state conj
+  (-> "examples/dueling-banjos.edn" slurp edn/read-string edna/play!))
+
+#_
+(swap! *state conj
+  (-> "examples/aeriths-theme.edn" slurp edn/read-string edna/play!))
+
+#_
 (edna/export!
   (-> "examples/dueling-banjos.edn" slurp edn/read-string)
   {:type :midi, :out (io/file "banjos.mid")})
@@ -21,12 +29,4 @@
 (edna/export!
   (-> "examples/dueling-banjos.edn" slurp edn/read-string)
   {:type :mp3, :out (io/file "banjos.mp3")})
-
-#_
-(swap! *state conj
-  (-> "examples/dueling-banjos.edn" slurp edn/read-string edna/play!))
-
-#_
-(swap! *state conj
-  (-> "examples/aeriths-theme.edn" slurp edn/read-string edna/play!))
 
