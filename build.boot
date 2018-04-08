@@ -20,7 +20,9 @@
   (set-env!
     :source-paths source-paths
     :resource-paths resource-paths
-    :dependencies (into '[[nightlight "RELEASE" :scope "test"]
+    :dependencies (into '[[adzerk/boot-cljs "2.1.4" :scope "test"]
+                          [adzerk/boot-reload "0.5.2" :scope "test"]
+                          [nightlight "RELEASE" :scope "test"]
                           [dynadoc "RELEASE" :scope "test"]]
                     dependencies)
     :repositories (conj (get-env :repositories)
@@ -29,6 +31,8 @@
                                 :password (System/getenv "CLOJARS_PASS")}])))
 
 (require
+  '[adzerk.boot-cljs :refer [cljs]]
+  '[adzerk.boot-reload :refer [reload]]
   '[nightlight.boot :refer [nightlight]]
   '[dynadoc.boot :refer [dynadoc]])
 
@@ -43,6 +47,20 @@
 (deftask run []
   (comp
     (wait)
+    (with-pass-thru _
+      (require 'edna.core))
+    (nightlight :port 4000)))
+
+(deftask run-docs []
+  (set-env!
+    :dependencies #(into (set %) (:dependencies (read-deps-edn [:cljs])))
+    :resource-paths #(conj % "dev-resources"))
+  (comp
+    (watch)
+    (reload :asset-path "dynadoc-extend")
+    (cljs
+      :optimizations :none
+      :compiler-options {:asset-path "/main.out"})
     (with-pass-thru _
       (require 'edna.core))
     (nightlight :port 4000)
