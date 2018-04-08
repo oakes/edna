@@ -242,7 +242,8 @@
   [content]
   (str
     "data:audio/mp3;base64,"
-    (-> (export! content {:type :mp3})
+    (-> (binding [*out* (java.io.StringWriter.)]
+          (export! content {:type :mp3}))
         .toByteArray
         (base64/encode)
         (String. "UTF-8"))))
