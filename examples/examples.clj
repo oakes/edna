@@ -1,10 +1,7 @@
 (ns edna.examples
   (:require [edna.core :as edna]
             [clojure.edn :as edn]
-            [clojure.java.io :as io]
-            [alda.now :as now]
-            [alda.sound :as sound]
-            [alda.sound.midi :as midi]))
+            [clojure.java.io :as io]))
 
 (defonce *state (atom nil))
 
