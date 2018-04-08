@@ -34,9 +34,6 @@
            [meico.midi Midi2AudioRenderer]
            [meico.audio Audio]))
 
-(def ^:private default-soundbank (try (MidiSystem/getSoundbank (io/resource "Aspirin_160_GMGS_2015.sf2"))
-                                    (catch Exception _)))
-(def ^:private default-format (AudioFormat. 44100 16 2 true false))
 (def ^:private default-attrs {:octave 4 :length 1/4 :tempo 120
                               :pan 50 :quantize 90 :transpose 0
                               :volume 100 :parent-ids [] :play? true})
@@ -185,18 +182,11 @@
                                :one-off? true}]
     (-> content edna->alda als/score sound/play! :score)))
 
-(defmulti export!
-  "Takes edna content and exports it, returning the value of :out. The `opts` map can contain:
- 
-  :type      - :midi, :wav, :mp3, or :mp3-data-uri (required)
-  :out       - A java.io.OutputStream or java.io.File object (optional, defaults to a ByteArrayOutputStream)
-  :soundbank - A javax.sound.midi.Soundbank object (optional, defaults to a built-in soundbank)
-  :format    - A javax.sound.sampled.AudioFormat object (optional, defaults to one with 44100 Hz)"
+(defmulti ^:private export!*
   (fn [content opts]
     (:type opts)))
 
-(defmethod export! :midi [content {:keys [out]
-                                   :or {out (java.io.ByteArrayOutputStream.)}}]
+(defmethod export!* :midi [content {:keys [out]}]
   (binding [midi/*midi-synth* (midi/new-midi-synth)
             sound/*play-opts* {:async? false
                                :one-off? true}]
@@ -204,10 +194,7 @@
         (MidiSystem/write 0 out)))
   out)
 
-(defmethod export! :wav [content {:keys [out soundbank format]
-                                  :or {out (java.io.ByteArrayOutputStream.)
-                                       soundbank default-soundbank
-                                       format default-format}}]
+(defmethod export!* :wav [content {:keys [out soundbank format]}]
   (binding [midi/*midi-synth* (midi/new-midi-synth)
             sound/*play-opts* {:async? false
                                :one-off? true}]
@@ -218,10 +205,7 @@
           (AudioSystem/write AudioFileFormat$Type/WAVE out))))
   out)
 
-(defmethod export! :mp3 [content {:keys [out soundbank format]
-                                  :or {out (java.io.ByteArrayOutputStream.)
-                                       soundbank default-soundbank
-                                       format default-format}}]
+(defmethod export!* :mp3 [content {:keys [out soundbank format]}]
   (binding [midi/*midi-synth* (midi/new-midi-synth)
             sound/*play-opts* {:async? false
                                :one-off? true}]
@@ -236,6 +220,22 @@
               Audio/convertAudioInputStream2ByteArray
               (Audio/encodePcmToMp3 format))))))
   out)
+
+(def ^:private default-soundbank (delay (MidiSystem/getSoundbank (io/resource "Aspirin_160_GMGS_2015.sf2"))))
+
+(defn export!
+  "Takes edna content and exports it, returning the value of :out. The `opts` map can contain:
+ 
+  :type      - :midi, :wav, or :mp3 (required)
+  :out       - A java.io.OutputStream or java.io.File object (optional, defaults to a ByteArrayOutputStream)
+  :soundbank - A javax.sound.midi.Soundbank object (optional, defaults to a built-in soundbank)
+  :format    - A javax.sound.sampled.AudioFormat object (optional, defaults to one with 44100 Hz)"
+  [content opts]
+  (export!* content
+    (-> opts
+        (update :out #(or % (java.io.ByteArrayOutputStream.)))
+        (update :soundbank #(or % @default-soundbank))
+        (update :format #(or % (AudioFormat. 44100 16 2 true false))))))
 
 (defn edna->data-uri
   "Turns the edna content into a data URI for use in browsers."
