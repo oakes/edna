@@ -1,5 +1,4 @@
 (ns edna.examples
-  (:require [reagent.core :as r])
   (:require-macros [edna.examples :refer [edna->data-uri]]
                    [dynadoc.example :refer [defexample]]))
 
@@ -7,14 +6,26 @@
   (when (-> card .-childNodes .-length (not= 0))
     (throw (js/Error. "These examples can't be edited, because edna needs the JVM to generate music.")))
   (set! (.-textAlign (.-style card)) "center")
-  (reagent.core/render-component [:audio {:src uri :controls true}] card))
+  (let [elem (js/document.createElement "audio")]
+    (set! (.-src elem) uri)
+    (set! (.-controls elem) true)
+    (.appendChild card elem)))
 
-(def example-1 (edna->data-uri [:piano :c]))
+(def example-1-single-notes (edna->data-uri [:piano :c :d :e :f]))
 
-(defexample example-1
-  {:doc "Hit middle c on a piano"
-   :with-focus [focus [:piano :c]]
+(defexample example-1-single-notes
+  {:doc "A few notes, one at a time"
+   :with-focus [focus [:piano :c :d :e :f]]
    :with-card card}
-  (init-card card example-1)
+  (init-card card example-1-single-notes)
+  nil)
+
+(def example-2-chord (edna->data-uri [:piano #{:c :d}]))
+
+(defexample example-2-chord
+  {:doc "A chord"
+   :with-focus [focus [:piano  #{:c :d}]]
+   :with-card card}
+  (init-card card example-2-chord)
   nil)
 
