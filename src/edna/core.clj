@@ -9,7 +9,8 @@
             [alda.lisp.model.duration :as almd]
             [alda.lisp.model.pitch :as almp]
             [alda.sound.midi :as midi]
-            [clojure.java.io :as io])
+            [clojure.java.io :as io]
+            [clojure.data.codec.base64 :as base64])
   (:import [javax.sound.midi MidiSystem]
            [javax.sound.sampled AudioSystem AudioFormat AudioFileFormat$Type]
            [meico.midi Midi2AudioRenderer]
@@ -216,4 +217,18 @@
               Audio/convertAudioInputStream2ByteArray
               (Audio/encodePcmToMp3 format))))))
   out)
+
+(defmethod export! :mp3-base64 [content opts]
+  (-> (export! content (-> opts (assoc :type :mp3) (dissoc :out)))
+      .toByteArray
+      (base64/encode)
+      (String. "UTF-8")))
+
+(defmacro edna->data-uri
+  "A macro meant to be used from ClojureScript to generate a data URI from edna content."
+  [content]
+  (try
+    (str "data:audio/mp3;base64," (export! content {:type :mp3-base64}))
+    (catch Exception e
+      (list 'throw (list 'js/Error. (.getMessage e))))))
 
