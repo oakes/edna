@@ -10,7 +10,20 @@
 
 (swap! *state (partial run! edna/stop!))
 
-;(-> "examples/dueling-banjos.edn" slurp edn/read-string (edna/export! (io/file "banjos.mid")))
+#_
+(edna/export!
+  (-> "examples/dueling-banjos.edn" slurp edn/read-string)
+  {:type :midi, :out (io/file "banjos.mid")})
+
+#_
+(edna/export!
+  (-> "examples/dueling-banjos.edn" slurp edn/read-string)
+  {:type :wav, :out (io/file "banjos.wav")})
+
+#_
+(edna/export!
+  (-> "examples/dueling-banjos.edn" slurp edn/read-string)
+  {:type :mp3, :out (io/file "banjos.mp3")})
 
 #_
 (swap! *state conj

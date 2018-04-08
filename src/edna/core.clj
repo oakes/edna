@@ -8,12 +8,18 @@
             [alda.lisp.attributes :as ala]
             [alda.lisp.model.duration :as almd]
             [alda.lisp.model.pitch :as almp]
-            [alda.sound.midi :as midi])
-  (:import [javax.sound.midi MidiSystem]))
+            [alda.sound.midi :as midi]
+            [clojure.java.io :as io])
+  (:import [javax.sound.midi MidiSystem]
+           [javax.sound.sampled AudioSystem AudioFormat AudioFileFormat$Type]
+           [meico.midi Midi2AudioRenderer]
+           [meico.audio Audio]))
 
-(def default-attrs {:octave 4 :length 1/4 :tempo 120
-                    :pan 50 :quantize 90 :transpose 0
-                    :volume 100 :parent-ids [] :play? true})
+(def ^:private default-soundbank (MidiSystem/getSoundbank (io/resource "Aspirin_160_GMGS_2015.sf2")))
+(def ^:private default-format (AudioFormat. 44100 16 2 true false))
+(def ^:private default-attrs {:octave 4 :length 1/4 :tempo 120
+                              :pan 50 :quantize 90 :transpose 0
+                              :volume 100 :parent-ids [] :play? true})
 
 (defmulti build-score (fn [val parent-attrs] (first val)))
 
@@ -151,10 +157,48 @@
                                :one-off? true}]
     (-> content edna->alda als/score sound/play! :score)))
 
-(defn export! [content out]
+(defmulti export! (fn [content opts]
+                    (:type opts)))
+
+(defmethod export! :midi [content {:keys [out]
+                                   :or {out (java.io.ByteArrayOutputStream.)}}]
   (binding [midi/*midi-synth* (midi/new-midi-synth)
             sound/*play-opts* {:async? false
                                :one-off? true}]
     (-> content edna->alda als/score sound/create-sequence!
-        (MidiSystem/write 0 out))))
+        (MidiSystem/write 0 out)))
+  out)
+
+(defmethod export! :wav [content {:keys [out soundbank format]
+                                  :or {out (java.io.ByteArrayOutputStream.)
+                                       soundbank default-soundbank
+                                       format default-format}}]
+  (binding [midi/*midi-synth* (midi/new-midi-synth)
+            sound/*play-opts* {:async? false
+                               :one-off? true}]
+    (let [renderer (Midi2AudioRenderer.)
+          midi->input-stream #(.renderMidi2Audio renderer % soundbank format)]
+      (-> content edna->alda als/score sound/create-sequence!
+          midi->input-stream
+          (AudioSystem/write AudioFileFormat$Type/WAVE out))))
+  out)
+
+(defmethod export! :mp3 [content {:keys [out soundbank format]
+                                  :or {out (java.io.ByteArrayOutputStream.)
+                                       soundbank default-soundbank
+                                       format default-format}}]
+  (binding [midi/*midi-synth* (midi/new-midi-synth)
+            sound/*play-opts* {:async? false
+                               :one-off? true}]
+    (let [renderer (Midi2AudioRenderer.)
+          midi->input-stream #(.renderMidi2Audio renderer % soundbank format)]
+      (with-open [fos (if (instance? java.io.File out)
+                        (java.io.FileOutputStream. out)
+                        out)]
+        (.write fos
+          (-> content edna->alda als/score sound/create-sequence!
+              midi->input-stream
+              Audio/convertAudioInputStream2ByteArray
+              (Audio/encodePcmToMp3 format))))))
+  out)
 
