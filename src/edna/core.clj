@@ -187,38 +187,29 @@
     (:type opts)))
 
 (defmethod export!* :midi [content {:keys [out]}]
-  (binding [midi/*midi-synth* (midi/new-midi-synth)
-            sound/*play-opts* {:async? false
-                               :one-off? true}]
-    (-> content edna->alda als/score sound/create-sequence!
-        (MidiSystem/write 0 out)))
+  (-> content edna->alda als/score sound/create-sequence!
+      (MidiSystem/write 0 out))
   out)
 
 (defmethod export!* :wav [content {:keys [out soundbank format]}]
-  (binding [midi/*midi-synth* (midi/new-midi-synth)
-            sound/*play-opts* {:async? false
-                               :one-off? true}]
-    (let [renderer (Midi2AudioRenderer.)
-          midi->input-stream #(.renderMidi2Audio renderer % soundbank format)]
-      (-> content edna->alda als/score sound/create-sequence!
-          midi->input-stream
-          (AudioSystem/write AudioFileFormat$Type/WAVE out))))
+  (let [renderer (Midi2AudioRenderer.)
+        midi->input-stream #(.renderMidi2Audio renderer % soundbank format)]
+    (-> content edna->alda als/score sound/create-sequence!
+        midi->input-stream
+        (AudioSystem/write AudioFileFormat$Type/WAVE out)))
   out)
 
 (defmethod export!* :mp3 [content {:keys [out soundbank format]}]
-  (binding [midi/*midi-synth* (midi/new-midi-synth)
-            sound/*play-opts* {:async? false
-                               :one-off? true}]
-    (let [renderer (Midi2AudioRenderer.)
-          midi->input-stream #(.renderMidi2Audio renderer % soundbank format)]
-      (with-open [fos (if (instance? java.io.File out)
-                        (java.io.FileOutputStream. out)
-                        out)]
-        (.write fos
-          (-> content edna->alda als/score sound/create-sequence!
-              midi->input-stream
-              Audio/convertAudioInputStream2ByteArray
-              (Audio/encodePcmToMp3 format))))))
+  (let [renderer (Midi2AudioRenderer.)
+        midi->input-stream #(.renderMidi2Audio renderer % soundbank format)]
+    (with-open [fos (if (instance? java.io.File out)
+                      (java.io.FileOutputStream. out)
+                      out)]
+      (.write fos
+        (-> content edna->alda als/score sound/create-sequence!
+            midi->input-stream
+            Audio/convertAudioInputStream2ByteArray
+            (Audio/encodePcmToMp3 format)))))
   out)
 
 (def ^:private default-soundbank (delay (MidiSystem/getSoundbank (io/resource "Aspirin_160_GMGS_2015.sf2"))))
@@ -231,11 +222,14 @@
   :soundbank - A javax.sound.midi.Soundbank object (optional, defaults to a built-in soundbank)
   :format    - A javax.sound.sampled.AudioFormat object (optional, defaults to one with 44100 Hz)"
   [content opts]
-  (export!* content
-    (-> opts
-        (update :out #(or % (java.io.ByteArrayOutputStream.)))
-        (update :soundbank #(or % @default-soundbank))
-        (update :format #(or % (AudioFormat. 44100 16 2 true false))))))
+  (binding [midi/*midi-synth* (midi/new-midi-synth)
+            sound/*play-opts* {:async? false
+                               :one-off? true}]
+    (export!* content
+      (-> opts
+          (update :out #(or % (java.io.ByteArrayOutputStream.)))
+          (update :soundbank #(or % @default-soundbank))
+          (update :format #(or % (AudioFormat. 44100 16 2 true false)))))))
 
 (defn edna->data-uri
   "Turns the edna content into a data URI for use in browsers."
