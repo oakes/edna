@@ -1,5 +1,6 @@
 (ns edna.parse
   (:require [clojure.spec.alpha :as s]
+            [expound.alpha :as expound]
             [alda.lisp.instruments.midi]
             [alda.lisp.model.instrument :refer [*stock-instruments*]]))
 
@@ -65,6 +66,6 @@
 (defn parse [content]
   (let [res (s/conform ::subscore content)]
     (if (= res :clojure.spec.alpha/invalid)
-      (throw (Exception. (s/explain-str ::subscore content)))
+      (throw (Exception. (expound/expound-str ::subscore content)))
       res)))
 
