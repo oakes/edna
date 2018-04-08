@@ -54,13 +54,26 @@
   (init-card card intro-1-single-notes)
   nil)
 
-(def intro-2-octave (edna->data-uri [:piano :c :d {:octave 3} :c :d]))
+(def intro-2-attributes (edna->data-uri [:piano :c :d {:octave 3} :c :d]))
 
-(defexample intro-2-octave
-  {:doc "By default you're on the 4th octave, but you can change it"
+(defexample intro-2-attributes
+  {:doc "Hash maps let you change the attributes of everything that comes after them.
+   Here are all the attributes you can change:
+   
+   :octave     - The octave (default is 4)
+   :length     - The note length (default is 1/4)
+   :tempo      - How fast or slow notes are played (default is 120)
+   :pan        - How far left/right the note is panned in your speaker (default is 50)
+   :quantize   - The percentage of a note's full duration that is heard (default is 90)
+   :transpose  - Moves all notes up or down by a desired number of semitones (default is 0)
+   :volume     - The volume (default is 100)
+   :play?      - Whether or not to play (default is true)
+   
+   Read more about attributes here:
+   https://github.com/alda-lang/alda/blob/master/doc/attributes.md"
    :with-focus [focus [:piano :c :d {:octave 3} :c :d]]
    :with-card card}
-  (init-card card intro-2-octave)
+  (init-card card intro-2-attributes)
   nil)
 
 (def intro-3-octave (edna->data-uri [:piano :c :-c :+2c]))
@@ -76,7 +89,7 @@
 (def intro-4-length (edna->data-uri [:piano :c :d 1/2 :e :f]))
 
 (defexample intro-4-length
-  {:doc "By default, notes are 1/4 length, but you can change that as well"
+  {:doc "A shorthand way of changing the note length is simply to write the number."
    :with-focus [focus [:piano :c :d 1/2 :e :f]]
    :with-card card}
   (init-card card intro-4-length)
