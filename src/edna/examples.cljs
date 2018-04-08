@@ -6,9 +6,11 @@
   (when (-> card .-childNodes .-length (not= 0))
     (throw (js/Error. "These examples can't be edited, because edna needs the JVM to generate music.")))
   (set! (.-textAlign (.-style card)) "center")
+  (set! (.-lineHeight (.-style card)) "200px")
   (let [elem (js/document.createElement "audio")]
     (set! (.-src elem) uri)
     (set! (.-controls elem) true)
+    (set! (.-verticalAlign (.-style elem)) "middle")
     (.appendChild card elem)))
 
 (def example-1-single-notes (edna->data-uri [:piano :c :d :e :f]))
