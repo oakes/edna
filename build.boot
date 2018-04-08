@@ -20,14 +20,17 @@
   (set-env!
     :source-paths source-paths
     :resource-paths resource-paths
-    :dependencies (into '[[nightlight "RELEASE" :scope "test"]]
+    :dependencies (into '[[nightlight "RELEASE" :scope "test"]
+                          [dynadoc "RELEASE" :scope "test"]]
                     dependencies)
     :repositories (conj (get-env :repositories)
                     ["clojars" {:url "https://clojars.org/repo/"
                                 :username (System/getenv "CLOJARS_USER")
                                 :password (System/getenv "CLOJARS_PASS")}])))
 
-(require '[nightlight.boot :refer [nightlight]])
+(require
+  '[nightlight.boot :refer [nightlight]]
+  '[dynadoc.boot :refer [dynadoc]])
 
 (task-options!
   pom {:project 'edna
@@ -41,8 +44,9 @@
   (comp
     (wait)
     (with-pass-thru _
-      (require 'alda.now))
-    (nightlight :port 4000)))
+      (require 'edna.core))
+    (nightlight :port 4000)
+    (dynadoc :port 5000)))
 
 (deftask local []
   (comp (pom) (jar) (install)))
