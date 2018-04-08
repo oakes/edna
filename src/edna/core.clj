@@ -21,9 +21,11 @@
                               :pan 50 :quantize 90 :transpose 0
                               :volume 100 :parent-ids [] :play? true})
 
-(defmulti build-score (fn [val parent-attrs] (first val)))
+(defmulti edna->alda*
+  "The underlying multimethod for converting edna to alda. You probably don't need to use this."
+  (fn [val parent-attrs] (first val)))
 
-(defmethod build-score :score [[_ {:keys [subscores] :as score}]
+(defmethod edna->alda* :score [[_ {:keys [subscores] :as score}]
                                {:keys [sibling-id parent-ids] :as parent-attrs}]
   (let [id (inc (or sibling-id 0))
         {:keys [instrument] :as attrs} (merge parent-attrs (select-keys score [:instrument]))]
@@ -35,14 +37,14 @@
            (fn [[subscores attrs] subscore]
              (let [attrs (assoc attrs :parent-ids
                            (conj parent-ids id))
-                   [subscore attrs] (build-score subscore attrs)]
+                   [subscore attrs] (edna->alda* subscore attrs)]
                [(conj subscores subscore) attrs]))
            [[] (dissoc attrs :sibling-id)]
            (vec subscores)))
        (ale/marker (str/join "." (conj parent-ids id))))
      (assoc parent-attrs :sibling-id id)]))
 
-(defmethod build-score :concurrent-score [[_ scores]
+(defmethod edna->alda* :concurrent-score [[_ scores]
                                           {:keys [sibling-id parent-ids] :as parent-attrs}]
   (let [id (inc (or sibling-id 0))
         instruments (map :instrument scores)]
@@ -54,20 +56,20 @@
     [(ale/part {}
        (reduce
          (fn [scores score]
-           (let [[score _] (build-score [:score score] parent-attrs)]
+           (let [[score _] (edna->alda* [:score score] parent-attrs)]
              (conj scores score)))
          []
          (vec scores))
        (ale/marker (str/join "." (conj parent-ids id))))
      (assoc parent-attrs :sibling-id id)]))
 
-(defmethod build-score :attrs [[_ {:keys [note] :as attrs}] parent-attrs]
+(defmethod edna->alda* :attrs [[_ {:keys [note] :as attrs}] parent-attrs]
   (if note
-    (let [[note {:keys [sibling-id]}] (build-score [:note note] (merge parent-attrs attrs))]
+    (let [[note {:keys [sibling-id]}] (edna->alda* [:note note] (merge parent-attrs attrs))]
       [note (assoc parent-attrs :sibling-id sibling-id)])
     [nil (merge parent-attrs attrs)]))
 
-(defmethod build-score :note [[_ note]
+(defmethod edna->alda* :note [[_ note]
                               {:keys [instrument octave length tempo
                                       pan quantize transpose volume
                                       sibling-id parent-ids play?]
@@ -104,7 +106,7 @@
          (ale/marker (str/join "." (conj parent-ids id))))
        (assoc parent-attrs :sibling-id id)])))
 
-(defmethod build-score :chord [[_ chord]
+(defmethod edna->alda* :chord [[_ chord]
                                {:keys [instrument sibling-id parent-ids play?]
                                 :as parent-attrs}]
   (when-not instrument
@@ -122,12 +124,12 @@
            (ale/at-marker (str/join "." (conj parent-ids sibling-id))))
          (apply ale/chord
            (map (fn [note]
-                  (first (build-score note attrs)))
+                  (first (edna->alda* note attrs)))
              chord))
          (ale/marker (str/join "." (conj parent-ids id))))
        (assoc parent-attrs :sibling-id id)])))
 
-(defmethod build-score :rest [[_ _] {:keys [length sibling-id parent-ids]
+(defmethod edna->alda* :rest [[_ _] {:keys [length sibling-id parent-ids]
                                      :as parent-attrs}]
   (let [id (inc (or sibling-id 0))]
     [[(when sibling-id
@@ -136,29 +138,42 @@
       (ale/marker (str/join "." (conj parent-ids id)))]
      (assoc parent-attrs :sibling-id id)]))
 
-(defmethod build-score :length [[_ length] parent-attrs]
+(defmethod edna->alda* :length [[_ length] parent-attrs]
   [nil (assoc parent-attrs :length length)])
 
-(defmethod build-score :default [[subscore-name] parent-attrs]
+(defmethod edna->alda* :default [[subscore-name] parent-attrs]
   (throw (Exception. (str subscore-name " not recognized"))))
 
-(defn edna->alda [content]
+(defn edna->alda
+  "Converts from edna to alda format."
+  [content]
   (->> default-attrs
-       (build-score (parse/parse content))
+       (edna->alda* (parse/parse content))
        first))
 
-(defn stop! [score]
+(defn stop!
+  "Stops the given score from playing. The `score` should be what was returned by `play!`."
+  [score]
   (some-> score sound/tear-down!)
   nil)
 
-(defn play! [content]
+(defn play!
+  "Takes edna content and plays it. Returns a score map, which can be used to stop it later."
+  [content]
   (binding [midi/*midi-synth* (midi/new-midi-synth)
             sound/*play-opts* {:async? true
                                :one-off? true}]
     (-> content edna->alda als/score sound/play! :score)))
 
-(defmulti export! (fn [content opts]
-                    (:type opts)))
+(defmulti export!
+  "Takes edna content and exports it. The `opts` map can contain:
+ 
+  :type      - Either :midi, :wav, or :mp3 (required)
+  :out       - A java.io.OutputStream or java.io.File object (optional, defaults to a ByteArrayOutputStream)
+  :soundbank - A javax.sound.midi.Soundbank object (optional, defaults to a built-in soundbank)
+  :format    - A javax.sound.sampled.AudioFormat object (optional, defaults to one with 44100 Hz)"
+  (fn [content opts]
+    (:type opts)))
 
 (defmethod export! :midi [content {:keys [out]
                                    :or {out (java.io.ByteArrayOutputStream.)}}]
