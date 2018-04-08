@@ -1,5 +1,5 @@
 (ns edna.core
-  (:require [alda.now :as now]
+  (:require [alda.lisp]
             [alda.sound :as sound]
             [edna.parse :as parse]
             [clojure.string :as str]
@@ -16,7 +16,8 @@
            [meico.midi Midi2AudioRenderer]
            [meico.audio Audio]))
 
-(def ^:private default-soundbank (MidiSystem/getSoundbank (io/resource "Aspirin_160_GMGS_2015.sf2")))
+(def ^:private default-soundbank (try (MidiSystem/getSoundbank (io/resource "Aspirin_160_GMGS_2015.sf2"))
+                                    (catch Exception _)))
 (def ^:private default-format (AudioFormat. 44100 16 2 true false))
 (def ^:private default-attrs {:octave 4 :length 1/4 :tempo 120
                               :pan 50 :quantize 90 :transpose 0
@@ -167,9 +168,9 @@
     (-> content edna->alda als/score sound/play! :score)))
 
 (defmulti export!
-  "Takes edna content and exports it. The `opts` map can contain:
+  "Takes edna content and exports it, returning the value of :out. The `opts` map can contain:
  
-  :type      - Either :midi, :wav, or :mp3 (required)
+  :type      - :midi, :wav, :mp3, or :mp3-data-uri (required)
   :out       - A java.io.OutputStream or java.io.File object (optional, defaults to a ByteArrayOutputStream)
   :soundbank - A javax.sound.midi.Soundbank object (optional, defaults to a built-in soundbank)
   :format    - A javax.sound.sampled.AudioFormat object (optional, defaults to one with 44100 Hz)"
@@ -218,17 +219,13 @@
               (Audio/encodePcmToMp3 format))))))
   out)
 
-(defmethod export! :mp3-base64 [content opts]
-  (-> (export! content (-> opts (assoc :type :mp3) (dissoc :out)))
-      .toByteArray
-      (base64/encode)
-      (String. "UTF-8")))
-
-(defmacro edna->data-uri
-  "A macro meant to be used from ClojureScript to generate a data URI from edna content."
+(defn edna->data-uri
+  "Turns the edna content into a data URI for use in browsers."
   [content]
-  (try
-    (str "data:audio/mp3;base64," (export! content {:type :mp3-base64}))
-    (catch Exception e
-      (list 'throw (list 'js/Error. (.getMessage e))))))
+  (str
+    "data:audio/mp3;base64,"
+    (-> (export! content {:type :mp3})
+        .toByteArray
+        (base64/encode)
+        (String. "UTF-8"))))
 
