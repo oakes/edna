@@ -18,5 +18,8 @@
       [".gitignore" (render "gitignore" data)]
       ["build.boot" (render "build.boot" data)]
       ["boot.properties" (render "boot.properties" data)]
-      ["src/{{path}}.clj" (render "core.clj" data)])))
+      ["src/{{path}}.clj" (render "core.clj" data)]
+      ["src/{{path}}.cljs" (render "core.cljs" data)]
+      ["resources/public/index.html" (render "index.html" data)]
+      ["resources/public/main.cljs.edn" (render "main.cljs.edn" data)])))
 

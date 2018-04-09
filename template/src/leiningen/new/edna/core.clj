@@ -12,7 +12,20 @@
    1/2 #{:-e :c :a} 1/2 #{:c :e}])
 
 (defonce state (atom nil))
-(swap! state edna/stop!)
-; comment this to stop playing:
-(reset! state (edna/play! music))
+
+(defn -main [& args]
+  (swap! state edna/stop!)
+  (reset! state (edna/play! music)))
+
+; for quick development, run this project with `boot run`,
+; turn on Nightlight's instaREPL, and uncomment this line:
+
+;(-main)
+
+; to build your music for the web,
+; just run this project with `boot run-cljs`
+; and go to http://localhost:3000
+
+(defmacro build-for-cljs []
+  (edna/edna->data-uri music))
 
