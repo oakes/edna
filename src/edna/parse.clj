@@ -14,6 +14,11 @@
 
 (def accidentals #{\# \= \_})
 
+(def accidental->keyword
+  {\# :sharp
+   \= :flat
+   \_ :natural})
+
 (s/def ::note-parts (s/cat
                       :octave-op (s/? octave-operators)
                       :octaves (s/* digits)
@@ -39,9 +44,10 @@
 (s/def ::transpose integer?)
 (s/def ::volume #(<= 0 % 100))
 (s/def ::play? boolean?)
+(s/def ::key-signature (s/coll-of ::note :kind set?))
 (s/def ::attrs (s/keys :opt-un [::note ::octave ::length ::tempo
                                 ::pan ::quantize ::transpose
-                                ::volume ::play?]))
+                                ::volume ::play? ::key-signature]))
 
 (s/def ::chord (s/coll-of
                  (s/or

@@ -36,7 +36,8 @@
 
 (def ^:private default-attrs {:octave 4 :length 1/4 :tempo 120
                               :pan 50 :quantize 90 :transpose 0
-                              :volume 100 :parent-ids [] :play? true})
+                              :volume 100 :parent-ids [] :play? true
+                              :key-signature #{}})
 
 (defmulti edna->alda*
   "The underlying multimethod for converting edna to alda. You probably don't need to use this."
@@ -89,7 +90,8 @@
 (defmethod edna->alda* :note [[_ note]
                               {:keys [instrument octave length tempo
                                       pan quantize transpose volume
-                                      sibling-id parent-ids play?]
+                                      sibling-id parent-ids play?
+                                      key-signature]
                                :as parent-attrs}]
   (when-not instrument
     (throw (Exception. (str "Can't play " note " without specifying an instrument"))))
@@ -98,11 +100,7 @@
     (let [id (inc (or sibling-id 0))
           {:keys [note accidental octave-op octaves]} (parse/parse-note note)
           note (keyword (str note))
-          accidental (case accidental
-                       \# :sharp
-                       \= :flat
-                       \_ :natural
-                       nil)
+          accidental (parse/accidental->keyword accidental)
           octaves (or octaves
                       (if octave-op [\1] [\0]))
           octave-change (cond-> (Integer/valueOf (str/join octaves))
@@ -116,6 +114,22 @@
          (ala/quantize quantize)
          (ala/transpose transpose)
          (ala/volume volume)
+         (when (seq key-signature)
+           (ala/key-signature (reduce
+                                (fn [m unparsed-note]
+                                  (let [{:keys [note accidental]} (parse/parse-note unparsed-note)
+                                        note (keyword (str note))
+                                        accidental (parse/accidental->keyword accidental)]
+                                    (cond
+                                      (contains? m note)
+                                      (throw (Exception. (str note " found more than once in " key-signature)))
+                                      (nil? accidental)
+                                      (throw (Exception. (str unparsed-note " from " key-signature
+                                                           " should either have a # (sharp) or = (flat)")))
+                                      :else
+                                      (assoc m note [accidental]))))
+                                {}
+                                key-signature)))
          (ale/note
            (or (some->> accidental (almp/pitch note))
                (almp/pitch note))

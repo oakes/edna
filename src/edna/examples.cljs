@@ -60,14 +60,16 @@
   {:doc "Hash maps let you change the attributes of everything that comes after them.
    Here are all the attributes you can change:
    
-   :octave     - The octave (default is 4)
-   :length     - The note length (default is 1/4)
-   :tempo      - How fast or slow notes are played (default is 120)
-   :pan        - How far left/right the note is panned in your speaker (default is 50)
-   :quantize   - The percentage of a note's full duration that is heard (default is 90)
-   :transpose  - Moves all notes up or down by a desired number of semitones (default is 0)
-   :volume     - The volume (default is 100)
-   :play?      - Whether or not to play (default is true)
+   :octave        - The octave (default is 4)
+   :length        - The note length (default is 1/4)
+   :tempo         - How fast or slow notes are played (default is 120)
+   :pan           - How far left/right the note is panned in your speaker (default is 50)
+   :quantize      - The percentage of a note's full duration that is heard (default is 90)
+   :transpose     - Moves all notes up or down by a desired number of semitones (default is 0)
+   :volume        - The volume (default is 100)
+   :key-signature - A set of sharp (#) or flat (=) notes, which set the default accidental
+                    for that note when it doesn't include an accidental (default is #{})
+   :play?         - Whether or not to play (default is true)
    
    Read more about attributes here:
    https://github.com/alda-lang/alda/blob/master/doc/attributes.md"
