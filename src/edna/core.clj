@@ -17,6 +17,7 @@
            [meico.audio Audio]))
 
 (midi/fill-midi-synth-pool!)
+(midi/fill-midi-sequencer-pool!)
 
 (def ^:private default-attrs {:octave 4 :length 1/4 :tempo 120
                               :pan 50 :quantize 90 :transpose 0

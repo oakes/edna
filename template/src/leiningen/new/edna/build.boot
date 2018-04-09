@@ -24,7 +24,7 @@
   (comp
     (wait)
     (with-pass-thru _
-      (Thread/sleep 3000) ; give edna some time to load
+      (Thread/sleep 3000) ; if we play before edna finishes loading it might stutter
       ({{namespace}}/-main))
     (nightlight :port 4000)))
 
