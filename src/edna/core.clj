@@ -1,34 +1,16 @@
 (ns edna.core
-  (:require [edna.parse :as parse]
-            [clojure.string :as str]
-            [clojure.java.io :as io]
-            [clojure.data.codec.base64 :as base64]
-            ; require every alda.lisp.* namespace
-            ; so all the defmethods are run
-            [alda.lisp.attributes :as ala]
-            alda.lisp.code
-            [alda.lisp.events :as ale]
-            alda.lisp.events.barline
-            alda.lisp.events.chord
-            alda.lisp.events.cram
-            alda.lisp.events.fn
-            alda.lisp.events.note
-            alda.lisp.events.rest
-            alda.lisp.events.sequence
-            alda.lisp.events.variable
-            alda.lisp.events.voice
-            alda.lisp.instruments.midi
-            alda.lisp.model.attribute
-            [alda.lisp.model.duration :as almd]
-            alda.lisp.model.event
-            alda.lisp.model.global-attribute
-            alda.lisp.model.marker
-            alda.lisp.model.offset
-            [alda.lisp.model.pitch :as almp]
-            [alda.lisp.score :as als]
-            alda.lisp.score.part
+  (:require [alda.lisp]
             [alda.sound :as sound]
-            [alda.sound.midi :as midi])
+            [edna.parse :as parse]
+            [clojure.string :as str]
+            [alda.lisp.score :as als]
+            [alda.lisp.events :as ale]
+            [alda.lisp.attributes :as ala]
+            [alda.lisp.model.duration :as almd]
+            [alda.lisp.model.pitch :as almp]
+            [alda.sound.midi :as midi]
+            [clojure.java.io :as io]
+            [clojure.data.codec.base64 :as base64])
   (:import [javax.sound.midi MidiSystem]
            [javax.sound.sampled AudioSystem AudioFormat AudioFileFormat$Type]
            [meico.midi Midi2AudioRenderer]
