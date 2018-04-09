@@ -219,8 +219,7 @@
   :soundbank - A javax.sound.midi.Soundbank object (optional, defaults to a built-in soundbank)
   :format    - A javax.sound.sampled.AudioFormat object (optional, defaults to one with 44100 Hz)"
   [content opts]
-  (binding [midi/*midi-synth* (midi/new-midi-synth)
-            sound/*play-opts* {:async? false
+  (binding [sound/*play-opts* {:async? false
                                :one-off? true}]
     (export!* content
       (-> opts
