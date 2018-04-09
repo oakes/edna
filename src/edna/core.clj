@@ -212,7 +212,7 @@
             (Audio/encodePcmToMp3 format)))))
   out)
 
-(def ^:private default-soundbank (delay (MidiSystem/getSoundbank (io/resource "Aspirin_160_GMGS_2015.sf2"))))
+(def ^:private default-soundbank (delay (some-> "Aspirin_160_GMGS_2015.sf2" io/resource MidiSystem/getSoundbank)))
 
 (defn export!
   "Takes edna content and exports it, returning the value of :out. The `opts` map can contain:
