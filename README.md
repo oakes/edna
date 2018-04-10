@@ -16,7 +16,7 @@ There are a few ways to create a project:
 ## Documentation
 
 * Check out [the example scores](https://github.com/oakes/edna/tree/master/examples)
-* Read [the dynadocs](https://oakes.github.io/edna/)
+* Read [the dynadocs](https://oakes.github.io/edna/clj/edna.core.html)
 * See the screencast:
   * https://www.youtube.com/watch?v=yNz-T3Ij0LI
 * Look at this commented example:
