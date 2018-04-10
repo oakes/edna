@@ -13,7 +13,7 @@
 
 (defonce state (atom nil))
 
-(defn -main [& args]
+(defn -main []
   (swap! state edna/stop!)
   (reset! state (edna/play! music)))
 
