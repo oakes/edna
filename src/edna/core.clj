@@ -216,9 +216,12 @@
   "Takes edna content and exports it, returning the value of :out. The `opts` map can contain:
  
   :type      - :midi, :wav, or :mp3 (required)
-  :out       - A java.io.OutputStream or java.io.File object (optional, defaults to a ByteArrayOutputStream)
-  :soundbank - A javax.sound.midi.Soundbank object (optional, defaults to a built-in soundbank)
-  :format    - A javax.sound.sampled.AudioFormat object (optional, defaults to one with 44100 Hz)"
+  :out       - A java.io.OutputStream or java.io.File object
+               (optional, defaults to a ByteArrayOutputStream)
+  :soundbank - A javax.sound.midi.Soundbank object, or nil to use the JVM's built-in one
+               (optional, defaults to a soundbank included in this library)
+  :format    - A javax.sound.sampled.AudioFormat object
+               (optional, defaults to one with 44100 Hz)"
   [content opts]
   (binding [sound/*play-opts* {:async? false
                                :one-off? true}]
