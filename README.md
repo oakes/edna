@@ -8,11 +8,10 @@ In addition to playing music, you can [export to mp3, wav, or midi](https://oake
 
 ## Getting Started
 
-There are several ways to create a project:
+There are a few ways to create a project:
 
 * [Boot](http://boot-clj.com/): `boot -d boot/new new -t edna -n hello-world`
 * [Nightcode](https://sekao.net/nightcode/): Choose "Music Project" from its start menu
-* [Nightcoders.net](http://nightcoders.net/): Choose "Music" when creating a new project
 
 ## Documentation
 
