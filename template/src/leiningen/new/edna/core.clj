@@ -18,7 +18,7 @@
   (reset! state (edna/play! music)))
 
 ; for quick development, run this project with `boot run`,
-; turn on Nightlight's instaREPL, and uncomment this line:
+; turn on the instaREPL, and uncomment this line:
 
 ;(-main)
 
