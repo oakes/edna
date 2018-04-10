@@ -1,4 +1,4 @@
-(ns {{namespace}}
+(ns {{name}}.core
   (:require [edna.core :as edna]))
 
 (def music

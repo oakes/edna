@@ -13,7 +13,7 @@
 
 (require
   '[edna.core]
-  '[{{namespace}}]
+  '[{{name}}.core]
   '[nightlight.boot :refer [nightlight]]
   '[adzerk.boot-cljs :refer [cljs]]
   '[adzerk.boot-reload :refer [reload]]
@@ -24,7 +24,7 @@
   (comp
     (wait)
     (with-pass-thru _
-      ({{namespace}}/-main))
+      ({{name}}.core/-main))
     (nightlight :port 4000)))
 
 (deftask build []
@@ -32,7 +32,7 @@
     (.mkdir (.getParentFile output))
     (with-pass-thru _
       (edna.core/export!
-        {{namespace}}/music
+        {{name}}.core/music
         {:type :mp3
          :out output})
       (println "Built" (.getCanonicalPath output)))))
