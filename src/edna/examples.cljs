@@ -11,7 +11,8 @@
     (set! (.-src elem) uri)
     (set! (.-controls elem) true)
     (set! (.-verticalAlign (.-style elem)) "middle")
-    (.appendChild card elem)))
+    (.appendChild card elem))
+  uri)
 
 (def aeriths-theme (edna->data-uri
                      [:piano {:octave 4
@@ -30,8 +31,7 @@
                        [1/8 #{:-d :-a :e :f#} :a :+d :+c# :+e :+d :b :+c#]
                        [1/2 #{:-e :c :a} 1/2 #{:c :e}]]]
    :with-card card}
-  (init-card card aeriths-theme)
-  nil)
+  (init-card card aeriths-theme))
 
 (def dueling-banjos (edna->data-uri
                       #{[:banjo {:octave 3} 1/16 :b :+c 1/8 :+d :b :+c :a :b :g :a]
@@ -42,8 +42,7 @@
    :with-focus [focus #{[:banjo {:octave 3} 1/16 :b :+c 1/8 :+d :b :+c :a :b :g :a]
                         [:guitar {:octave 3} 1/16 :r :r 1/8 :g :r :d :r :g :g :d]}]
    :with-card card}
-  (init-card card dueling-banjos)
-  nil)
+  (init-card card dueling-banjos))
 
 (def intro-1-single-notes (edna->data-uri [:piano :c :d :e :f]))
 
@@ -51,8 +50,7 @@
   {:doc "A few notes, one at a time"
    :with-focus [focus [:piano :c :d :e :f]]
    :with-card card}
-  (init-card card intro-1-single-notes)
-  nil)
+  (init-card card intro-1-single-notes))
 
 (def intro-2-attributes (edna->data-uri [:piano :c :d {:octave 3} :c :d]))
 
@@ -67,16 +65,16 @@
    :quantize      - The percentage of a note's full duration that is heard (default is 90)
    :transpose     - Moves all notes up or down by a desired number of semitones (default is 0)
    :volume        - The volume (default is 100)
-   :key-signature - A set of sharp (#) or flat (=) notes, which set the default accidental
-                    for that note when it doesn't include an accidental (default is #{})
+   :key-signature - A set of notes with accidentals -- either a sharp (#), flat (=), or natural (_) --
+                    whose purpose is to set the default accidental for that note when
+                    it doesn't include one (default is #{})
    :play?         - Whether or not to play (default is true)
    
    Read more about attributes here:
    https://github.com/alda-lang/alda/blob/master/doc/attributes.md"
    :with-focus [focus [:piano :c :d {:octave 3} :c :d]]
    :with-card card}
-  (init-card card intro-2-attributes)
-  nil)
+  (init-card card intro-2-attributes))
 
 (def intro-3-octave (edna->data-uri [:piano :c :-c :+2c]))
 
@@ -85,8 +83,7 @@
    If you want to change by more than one octave, just put a number after."
    :with-focus [focus [:piano :c :-c :+2c]]
    :with-card card}
-  (init-card card intro-3-octave)
-  nil)
+  (init-card card intro-3-octave))
 
 (def intro-4-length (edna->data-uri [:piano :c :d 1/2 :e :f]))
 
@@ -94,8 +91,7 @@
   {:doc "A shorthand way of changing the note length is simply to write the number."
    :with-focus [focus [:piano :c :d 1/2 :e :f]]
    :with-card card}
-  (init-card card intro-4-length)
-  nil)
+  (init-card card intro-4-length))
 
 (def intro-5-chord (edna->data-uri [:piano #{:c :d}]))
 
@@ -103,6 +99,5 @@
   {:doc "A chord is just notes in a set"
    :with-focus [focus [:piano #{:c :d}]]
    :with-card card}
-  (init-card card intro-5-chord)
-  nil)
+  (init-card card intro-5-chord))
 
