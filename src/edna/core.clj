@@ -16,9 +16,6 @@
            [meico.midi Midi2AudioRenderer]
            [meico.audio Audio]))
 
-(midi/fill-midi-synth-pool!)
-(midi/fill-midi-sequencer-pool!)
-
 (def ^:private default-attrs {:octave 4 :length 1/4 :tempo 120
                               :pan 50 :quantize 90 :transpose 0
                               :volume 100 :parent-ids [] :play? true
@@ -176,7 +173,9 @@
 (defn play!
   "Takes edna content and plays it. Returns a score map, which can be used to stop it later."
   [content]
-  (binding [sound/*play-opts* {:async? true
+  (binding [midi/*midi-synth* (midi/new-midi-synth)
+            sound/*use-midi-sequencer* false
+            sound/*play-opts* {:async? true
                                :one-off? true}]
     (-> content edna->alda als/score sound/play! :score)))
 
@@ -223,7 +222,9 @@
   :format    - A javax.sound.sampled.AudioFormat object
                (optional, defaults to one with 44100 Hz)"
   [content opts]
-  (binding [sound/*play-opts* {:async? false
+  (binding [midi/*midi-synth* (midi/new-midi-synth)
+            sound/*use-midi-sequencer* true
+            sound/*play-opts* {:async? false
                                :one-off? true}]
     (export!* content
       (-> opts
