@@ -8,7 +8,7 @@
 
 (task-options!
   pom {:project 'edna/lein-template
-       :version "1.0.0.1"
+       :version "1.0.0.2"
        :description "A template for making edna projects"
        :url "https://github.com/oakes/edna"
        :license {"Public Domain" "http://unlicense.org/UNLICENSE"}}

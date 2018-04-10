@@ -13,7 +13,7 @@
         (str/join "-" $)))
 
 (defn edna
-  [name]
+  [name & _]
   (let [render (t/renderer "edna")
         sanitized-name (sanitize-name name)
         _ (when-not (seq sanitized-name)
