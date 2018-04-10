@@ -1,13 +1,26 @@
 ## Introduction
 
-A Clojure library for making music with edn data. It uses [Alda](https://github.com/alda-lang/alda) underneath. There are a few ways to create a project:
+A Clojure library for making music with edn data. It uses [Alda](https://github.com/alda-lang/alda) underneath. There are probably bugs...or maybe your music just sounds bad. It could be that. Think about it.
+
+### [Try the playable examples!](https://oakes.github.io/edna/cljs/edna.examples.html)
+
+In addition to playing music, you can [export to mp3, wav, or midi](https://oakes.github.io/edna/clj/edna.core/export'e'.html) files, or even [export to a data URI](https://oakes.github.io/edna/clj/edna.core/edna-'g'data-uri.html) for playing on the web! With that, you can embed music in a [ClojureScript game](https://github.com/oakes/play-cljs) and the music will rebuild automatically when you edit it.
+
+## Getting Started
+
+There are several ways to create a project:
 
 * [Boot](http://boot-clj.com/): `boot -d boot/new new -t edna -n hello-world`
 * [Nightcode](https://sekao.net/nightcode/): Choose "Music Project" from its start menu
+* [Nightcoders.net](http://nightcoders.net/): Choose "Music" when creating a new project
 
-Note that the default midi sounds from the JVM are low quality! You can improve it by [installing a soundfont](https://github.com/alda-lang/alda#midi-soundfonts).
+## Documentation
 
-## Tutorial
+* Check out [the example scores](https://github.com/oakes/edna/tree/master/examples)
+* Read [the dynadocs](https://oakes.github.io/edna/)
+* See the screencast:
+  * https://www.youtube.com/watch?v=yNz-T3Ij0LI
+* Look at this commented example:
 
 ```clojure
 ; first hit middle c on the piano
@@ -48,8 +61,6 @@ Note that the default midi sounds from the JVM are low quality! You can improve 
 ```
 
 The keyword at the beginning of your vector has to coorespond with something from Alda's [list of instruments](https://github.com/alda-lang/alda/blob/master/doc/list-of-instruments.md). After that, you can mix and match notes, chords, note lengths, and so on.
-
-There are probably bugs...or maybe your music just sounds bad. It could be that. Think about it.
 
 ## Licensing
 
