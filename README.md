@@ -19,6 +19,9 @@ There are a few ways to create a project:
 * Read [the dynadocs](https://oakes.github.io/edna/clj/edna.core.html)
 * See the screencast:
   * https://www.youtube.com/watch?v=yNz-T3Ij0LI
+* See an example game with an edna score embedded:
+  * Live demo: https://oakes.github.io/play-cljs-examples/demos/super-koalio/
+  * Code: https://github.com/oakes/play-cljs-examples/tree/master/super-koalio
 * Look at this commented example:
 
 ```clojure
