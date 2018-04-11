@@ -18,8 +18,9 @@ There are several ways to create a project:
 
 * Check out [the example scores](https://github.com/oakes/edna/tree/master/examples)
 * Read [the dynadocs](https://oakes.github.io/edna/clj/edna.core.html)
-* See the screencast:
-  * https://www.youtube.com/watch?v=yNz-T3Ij0LI
+* See the screencasts:
+  * Intro to edna: https://www.youtube.com/watch?v=yNz-T3Ij0LI
+  * Making music for the web with edna: https://www.youtube.com/watch?v=aZkoPNFVEkQ
 * See an example game with an edna score embedded:
   * Live demo: https://oakes.github.io/play-cljs-examples/demos/super-koalio/
   * Code: https://github.com/oakes/play-cljs-examples/tree/master/super-koalio
