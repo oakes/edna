@@ -229,7 +229,7 @@
     (export!* content
       (-> opts
           (update :out #(or % (java.io.ByteArrayOutputStream.)))
-          (update :soundbank #(or % @default-soundbank))
+          (update :soundbank #(if (contains? opts :soundbank) % @default-soundbank))
           (update :format #(or % (AudioFormat. 44100 16 2 true false)))))))
 
 (defn edna->data-uri
