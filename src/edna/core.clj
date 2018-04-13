@@ -233,12 +233,16 @@
 
 (defn edna->data-uri
   "Turns the edna content into a data URI for use in browsers."
-  [content]
-  (str
-    "data:audio/mp3;base64,"
-    (-> (binding [*out* (java.io.StringWriter.)]
-          (export! content {:type :mp3}))
-        .toByteArray
-        (base64/encode)
-        (String. "UTF-8"))))
+  ([content]
+   (edna->data-uri content {}))
+  ([content opts]
+   (str
+     "data:audio/mp3;base64,"
+     (-> (binding [*out* (java.io.StringWriter.)]
+           (->> (select-keys opts [:soundbank :format])
+                (merge {:type :mp3})
+                (export! content)))
+         .toByteArray
+         (base64/encode)
+         (String. "UTF-8")))))
 
