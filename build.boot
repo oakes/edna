@@ -59,7 +59,7 @@
     (watch)
     (reload :asset-path "dynadoc-extend")
     (cljs
-      :optimizations :none
+      :optimizations :simple
       :compiler-options {:asset-path "/main.out"})
     (with-pass-thru _
       (require 'edna.core))
