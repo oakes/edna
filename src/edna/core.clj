@@ -211,7 +211,7 @@
 (def ^:private default-soundbank (delay (some-> "Aspirin_160_GMGS_2015.sf2" io/resource MidiSystem/getSoundbank)))
 
 (defn export!
-  "Takes edna content and exports it, returning the value of :out. The `opts` map can contain:
+  "Takes edna content and exports it, returning the value of :out. The opts map can contain:
  
   :type      - :midi, :wav, or :mp3 (required)
   :out       - A java.io.OutputStream or java.io.File object
@@ -219,7 +219,10 @@
   :soundbank - A javax.sound.midi.Soundbank object, or nil to use the JVM's built-in one
                (optional, defaults to a soundbank included in this library)
   :format    - A javax.sound.sampled.AudioFormat object
-               (optional, defaults to one with 44100 Hz)"
+               (optional, defaults to one with 44100 Hz)
+  
+  Note: If you want to use the sound font installed on your system, rather than the one
+        built into edna, include `:soundbank nil` in your opts map."
   [content opts]
   (binding [midi/*midi-synth* (midi/new-midi-synth)
             sound/*use-midi-sequencer* true
@@ -232,7 +235,15 @@
           (update :format #(or % (AudioFormat. 44100 16 2 true false)))))))
 
 (defn edna->data-uri
-  "Turns the edna content into a data URI for use in browsers."
+  "Turns the edna content into a data URI for use in browsers. The opts map can contain:
+  
+  :soundbank - A javax.sound.midi.Soundbank object, or nil to use the JVM's built-in one
+               (optional, defaults to a soundbank included in this library)
+  :format    - A javax.sound.sampled.AudioFormat object
+               (optional, defaults to one with 44100 Hz)
+  
+  Note: If you want to use the sound font installed on your system, rather than the one
+        built into edna, include `:soundbank nil` in your opts map."
   ([content]
    (edna->data-uri content {}))
   ([content opts]
