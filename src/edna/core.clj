@@ -96,22 +96,21 @@
          (ala/quantize quantize)
          (ala/transpose transpose)
          (ala/volume volume)
-         (when (seq key-signature)
-           (ala/key-signature (reduce
-                                (fn [m unparsed-note]
-                                  (let [{:keys [note accidental]} (parse/parse-note unparsed-note)
-                                        note (keyword (str note))
-                                        accidental (parse/accidental->keyword accidental)]
-                                    (cond
-                                      (contains? m note)
-                                      (throw (Exception. (str note " found more than once in " key-signature)))
-                                      (nil? accidental)
-                                      (throw (Exception. (str unparsed-note " from " key-signature
-                                                           " should either have a # (sharp) or = (flat)")))
-                                      :else
-                                      (assoc m note [accidental]))))
-                                {}
-                                key-signature)))
+         (ala/key-signature (reduce
+                              (fn [m unparsed-note]
+                                (let [{:keys [note accidental]} (parse/parse-note unparsed-note)
+                                      note (keyword (str note))
+                                      accidental (parse/accidental->keyword accidental)]
+                                  (cond
+                                    (contains? m note)
+                                    (throw (Exception. (str note " found more than once in " key-signature)))
+                                    (nil? accidental)
+                                    (throw (Exception. (str unparsed-note " from " key-signature
+                                                         " should either have a # (sharp) or = (flat)")))
+                                    :else
+                                    (assoc m note [accidental]))))
+                              {}
+                              key-signature))
          (ale/note
            (or (some->> accidental (almp/pitch note))
                (almp/pitch note))
