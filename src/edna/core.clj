@@ -172,7 +172,7 @@
 (defn play!
   "Takes edna content and plays it. Returns a score map, which can be used to stop it later."
   [content]
-  (binding [midi/*midi-synth* (midi/new-midi-synth)
+  (binding [midi/*midi-synth* (midi/new-midi-synth true)
             sound/*use-midi-sequencer* false
             sound/*play-opts* {:async? true
                                :one-off? true}]
@@ -224,7 +224,7 @@
   Note: If you want to use the sound font installed on your system, rather than the one
         built into edna, include `:soundbank nil` in your opts map."
   [content opts]
-  (binding [midi/*midi-synth* (midi/new-midi-synth)
+  (binding [midi/*midi-synth* (midi/new-midi-synth false)
             sound/*use-midi-sequencer* true
             sound/*play-opts* {:async? false
                                :one-off? true}]
