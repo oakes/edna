@@ -21,7 +21,6 @@ There are several ways to create a project:
 * See the screencasts:
   * Intro to edna: https://www.youtube.com/watch?v=yNz-T3Ij0LI
   * Making music for the web with edna: https://www.youtube.com/watch?v=aZkoPNFVEkQ
-* See [an example game](https://github.com/oakes/play-cljs-examples/tree/master/super-koalio) with an edna score embedded
 * Look at this commented example:
 
 ```clojure
