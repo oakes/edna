@@ -44,11 +44,11 @@
    :with-card card}
   (init-card card dueling-banjos))
 
-(def intro-1-single-notes (edna->data-uri [:piano :c :d :e :f]))
+(def intro-1-single-notes (edna->data-uri [:piano :c :c# :d :d# :e :f :f# :g :g# :a :a# :b]))
 
 (defexample intro-1-single-notes
-  {:doc "A few notes, one at a time"
-   :with-focus [focus [:piano :c :d :e :f]]
+  {:doc "Here are all twelve notes"
+   :with-focus [focus [:piano :c :c# :d :d# :e :f :f# :g :g# :a :a# :b]]
    :with-card card}
   (init-card card intro-1-single-notes))
 
@@ -76,22 +76,22 @@
    :with-card card}
   (init-card card intro-2-attributes))
 
-(def intro-3-octave (edna->data-uri [:piano :c :-c :+2c]))
+(def intro-3-octave-shorthand (edna->data-uri [:piano :c :-c :+2c]))
 
-(defexample intro-3-octave
+(defexample intro-3-octave-shorthand
   {:doc "You can change an individual note's relative octave with a + or - inside the keyword.
    If you want to change by more than one octave, just put a number after."
    :with-focus [focus [:piano :c :-c :+2c]]
    :with-card card}
   (init-card card intro-3-octave))
 
-(def intro-4-length (edna->data-uri [:piano :c :d 1/2 :e :f]))
+(def intro-4-length-shorthand (edna->data-uri [:piano :c :d 1/2 :e :f]))
 
-(defexample intro-4-length
+(defexample intro-4-length-shorthand
   {:doc "A shorthand way of changing the note length is simply to write the number."
    :with-focus [focus [:piano :c :d 1/2 :e :f]]
    :with-card card}
-  (init-card card intro-4-length))
+  (init-card card intro-4-length-shorthand))
 
 (def intro-5-chord (edna->data-uri [:piano #{:c :d}]))
 
