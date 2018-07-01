@@ -2,12 +2,13 @@
  :deps {org.clojure/clojure {:mvn/version "1.9.0" :scope "provided"}
         org.clojars.oakes/alda-core {:mvn/version "0.3.10-1"}
         org.clojars.oakes/sound-engine-clj {:mvn/version "0.4.0-1"}
-        org.clojars.oakes/meico {:mvn/version "0.3.5-1"
+        org.clojars.oakes/meico {:mvn/version "0.3.5-2"
                                  :exclusions [info.debatty/java-string-similarity
                                               com.thaiopensource/jing
                                               com.miglayout/miglayout
                                               com.io7m.xom/xom]}
         org.clojure/data.codec {:mvn/version "0.1.1"}
         defexample {:mvn/version "1.7.0"}
-        expound {:mvn/version "0.7.0"}}
+        expound {:mvn/version "0.7.1"}
+        org.bitbucket.daveyarwood/fluid-r3 {:mvn/version "0.1.1"}}
  :aliases {:cljs {:extra-deps {org.clojure/clojurescript {:mvn/version "1.10.238"}}}}}
