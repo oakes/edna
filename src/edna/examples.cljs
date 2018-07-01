@@ -83,7 +83,7 @@
    If you want to change by more than one octave, just put a number after."
    :with-focus [focus [:piano :c :-c :+2c]]
    :with-card card}
-  (init-card card intro-3-octave))
+  (init-card card intro-3-octave-shorthand))
 
 (def intro-4-length-shorthand (edna->data-uri [:piano :c :d 1/2 :e :f]))
 
