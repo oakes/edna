@@ -208,7 +208,12 @@
             (Audio/encodePcmToMp3 format)))))
   out)
 
-(def ^:private default-soundbank (delay (some-> "fluid-r3.sf2" io/resource MidiSystem/getSoundbank)))
+(def ^:private default-soundbank (delay
+                                   (some-> (or ; comes from org.bitbucket.dateyarwood/fluid-r3
+                                               (io/resource "fluid-r3.sf2")
+                                               ; comes from org.clojars.oakes/meico
+                                               (io/resource "Aspirin_160_GMGS_2015.sf2"))
+                                           MidiSystem/getSoundbank)))
 
 (defn export!
   "Takes edna content and exports it, returning the value of :out. The opts map can contain:
