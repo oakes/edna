@@ -38,7 +38,7 @@
 
 (task-options!
   pom {:project 'edna
-       :version "1.5.0-SNAPSHOT"
+       :version "1.5.0"
        :description "A Clojure data -> music library"
        :url "https://github.com/oakes/edna"
        :license {"Public Domain" "http://unlicense.org/UNLICENSE"}}
