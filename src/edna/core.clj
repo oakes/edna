@@ -209,9 +209,9 @@
   out)
 
 (def ^:private default-soundbank (delay
-                                   (some-> (or ; comes from org.bitbucket.dateyarwood/fluid-r3
+                                   (some-> (or ;; from org.bitbucket.daveyarwood/fluid-r3
                                                (io/resource "fluid-r3.sf2")
-                                               ; comes from org.clojars.oakes/meico
+                                               ;; from org.clojars.oakes/meico
                                                (io/resource "Aspirin_160_GMGS_2015.sf2"))
                                            MidiSystem/getSoundbank)))
 
