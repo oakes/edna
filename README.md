@@ -27,8 +27,8 @@ There are several ways to create a project:
 ; first hit middle c on the piano
 [:piano :c]
 
-; hit a few more keys in succession
-[:piano :c :d :e :f]
+; hit all twelve notes
+[:piano :c :c# :d :d# :e :f :f# :g :g# :a :a# :b]
 
 ; by default you're on the 4th octave, but you can change it
 [:piano {:octave 3} :c :d :e :f]
