@@ -2,7 +2,7 @@
   (:require [edna.core :as edna]))
 
 (defn read-music []
-  (load-string (slurp "src/music.clj")))
+  (load-file "src/music.clj"))
 
 (defonce state (atom nil))
 
