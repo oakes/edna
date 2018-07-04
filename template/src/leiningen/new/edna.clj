@@ -12,21 +12,29 @@
         (remove empty? $)
         (str/join "-" $)))
 
+(defn edna-data [name]
+  (let [sanitized-name (sanitize-name name)]
+    (when-not (seq sanitized-name)
+      (throw (Exception. (str "Invalid name: " name))))
+    {:name sanitized-name
+     :dir (str/replace sanitized-name "-" "_")}))
+
+(defn edna*
+  [data]
+  (let [render (t/renderer "edna")]
+    {"README.md" (render "README.md" data)
+     ".gitignore" (render "gitignore" data)
+     "build.boot" (render "build.boot" data)
+     "boot.properties" (render "boot.properties" data)
+     "src/music.clj" (render "music.clj" data)
+     (str "src/" (:dir data) "/core.cljs") (render "core.cljs" data)
+     (str "src/" (:dir data) "/core.clj") (render "core.clj" data)
+     "resources/public/index.html" (render "index.html" data)
+     "resources/public/main.cljs.edn" (render "main.cljs.edn" data)}))
+
 (defn edna
   [name & _]
-  (let [render (t/renderer "edna")
-        sanitized-name (sanitize-name name)
-        _ (when-not (seq sanitized-name)
-            (throw (Exception. (str "Invalid name: " name))))
-        data {:name sanitized-name
-              :dir (str/replace sanitized-name "-" "_")}]
-    (t/->files data
-      ["README.md" (render "README.md" data)]
-      [".gitignore" (render "gitignore" data)]
-      ["build.boot" (render "build.boot" data)]
-      ["boot.properties" (render "boot.properties" data)]
-      ["src/{{dir}}/core.cljs" (render "core.cljs" data)]
-      ["src/{{dir}}/core.clj" (render "core.clj" data)]
-      ["resources/public/index.html" (render "index.html" data)]
-      ["resources/public/main.cljs.edn" (render "main.cljs.edn" data)])))
+  (let [data (edna-data name)
+        path->content (edna* data)]
+    (apply t/->files data (vec path->content))))
 

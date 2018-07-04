@@ -9,7 +9,7 @@
                   [javax.xml.bind/jaxb-api "2.3.0" :scope "test"] ; necessary for Java 9 compatibility
                   [org.clojure/clojurescript "1.10.312" :scope "test"]
                   [nightlight "RELEASE"]
-                  [edna "1.5.0"]])
+                  [edna "1.5.1"]])
 
 (require
   '[edna.core]
@@ -22,7 +22,7 @@
 
 (deftask run []
   (comp
-    (wait)
+    (watch)
     (with-pass-thru _
       ({{name}}.core/-main))
     (nightlight :port 4000)))
@@ -32,7 +32,7 @@
     (.mkdir (.getParentFile output))
     (with-pass-thru _
       (edna.core/export!
-        {{name}}.core/music
+        ({{name}}.core/read-music)
         {:type :mp3
          :out output})
       (println "Built" (.getCanonicalPath output)))))
