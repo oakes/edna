@@ -1,3 +1,5 @@
+(ns {{name}}.music)
+
 [:piano {:octave 4
          :tempo 74}
  

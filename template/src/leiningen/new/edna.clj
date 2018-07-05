@@ -20,15 +20,15 @@
      :dir (str/replace sanitized-name "-" "_")}))
 
 (defn edna*
-  [data]
+  [{:keys [dir] :as data}]
   (let [render (t/renderer "edna")]
     {"README.md" (render "README.md" data)
      ".gitignore" (render "gitignore" data)
      "build.boot" (render "build.boot" data)
      "boot.properties" (render "boot.properties" data)
-     "src/music.clj" (render "music.clj" data)
-     (str "src/" (:dir data) "/core.cljs") (render "core.cljs" data)
-     (str "src/" (:dir data) "/core.clj") (render "core.clj" data)
+     (str "src/" dir "/music.clj") (render "music.clj" data)
+     (str "src/" dir "/core.cljs") (render "core.cljs" data)
+     (str "src/" dir "/core.clj") (render "core.clj" data)
      "resources/public/index.html" (render "index.html" data)
      "resources/public/main.cljs.edn" (render "main.cljs.edn" data)}))
 
