@@ -12,12 +12,23 @@
         (remove empty? $)
         (str/join "-" $)))
 
+(def initial-score
+  "[:piano {:octave 4
+           :tempo 74}
+   
+   1/8 #{:-d :-a :e :f#} :a 1/2 #{:f# :+d}
+   1/8 #{:-e :e :+c} :a 1/2 #{:c :e}
+   
+   1/8 #{:-d :-a :e :f#} :a :+d :+c# :+e :+d :b :+c#
+   1/2 #{:-e :c :a} 1/2 #{:c :e}]")
+
 (defn edna-data [name]
   (let [sanitized-name (sanitize-name name)]
     (when-not (seq sanitized-name)
       (throw (Exception. (str "Invalid name: " name))))
     {:name sanitized-name
-     :dir (str/replace sanitized-name "-" "_")}))
+     :dir (str/replace sanitized-name "-" "_")
+     :initial-score initial-score}))
 
 (defn edna*
   [{:keys [dir] :as data}]
