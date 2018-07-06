@@ -9,7 +9,7 @@
                   [javax.xml.bind/jaxb-api "2.3.0" :scope "test"] ; necessary for Java 9 compatibility
                   [org.clojure/clojurescript "1.10.312" :scope "test"]
                   [nightlight "RELEASE"]
-                  [edna "1.5.2"]])
+                  [edna "1.5.3"]])
 
 (require
   '[edna.core]
