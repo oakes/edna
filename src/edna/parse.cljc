@@ -27,11 +27,11 @@
 
 (defn parse-note [note]
   (if-not (keyword? note)
-    :clojure.spec.alpha/invalid
+    ::s/invalid
     (s/conform ::note-parts (seq (name note)))))
 
 (defn note? [x]
-  (not= :clojure.spec.alpha/invalid (parse-note x)))
+  (not= ::s/invalid (parse-note x)))
 
 (s/def ::note note?)
 (s/def ::rest #{:r})
@@ -71,7 +71,7 @@
 
 (defn parse [content]
   (let [res (s/conform ::subscore content)]
-    (if (= res :clojure.spec.alpha/invalid)
+    (if (= res ::s/invalid)
       (throw (#?(:clj Exception. :cljs js/Error.) (expound/expound-str ::subscore content)))
       res)))
 
