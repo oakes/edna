@@ -1,10 +1,10 @@
 (ns edna.parse
   (:require [clojure.spec.alpha :as s]
             [expound.alpha :as expound]
-            [alda.lisp.instruments.midi]
-            [alda.lisp.model.instrument :refer [*stock-instruments*]]))
+            #?(:clj [edna.alda :refer [get-instruments]]))
+  #?(:cljs (:require-macros [edna.alda :refer [get-instruments]])))
 
-(def instruments (->> *stock-instruments* keys (map keyword) set))
+(def instruments (get-instruments))
 
 (def octave-operators #{\+ \-})
 
@@ -72,6 +72,6 @@
 (defn parse [content]
   (let [res (s/conform ::subscore content)]
     (if (= res :clojure.spec.alpha/invalid)
-      (throw (Exception. (expound/expound-str ::subscore content)))
+      (throw (#?(:clj Exception. :cljs js/Error.) (expound/expound-str ::subscore content)))
       res)))
 
