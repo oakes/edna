@@ -19,9 +19,11 @@ There are several ways to create a project:
 
 * Check out [the example scores](https://github.com/oakes/edna/tree/master/examples)
 * Read [the dynadocs](https://oakes.github.io/edna/clj/edna.core.html)
+* Join the discussion on [r/midibin](https://www.reddit.com/r/midibin/)
 * See the screencasts:
   * Intro to edna: https://www.youtube.com/watch?v=yNz-T3Ij0LI
   * Making music for the web with edna: https://www.youtube.com/watch?v=aZkoPNFVEkQ
+  * Midibin.com - Turn code into music: https://www.youtube.com/watch?v=LiXcJr42CvQ
 * Look at this commented example:
 
 ```clojure
