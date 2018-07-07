@@ -13,6 +13,7 @@ There are several ways to create a project:
 * [Boot](http://boot-clj.com/): `boot -d boot/new new -t edna -n hello-world`
 * [Nightcode](https://sekao.net/nightcode/): Choose "Music Project" from its start menu
 * [Nightcoders.net](http://nightcoders.net/): Choose "Music" when creating a new project
+* [Midibin.com](https://midibin.com): A code playground dedicated to making music with edna
 
 ## Documentation
 
