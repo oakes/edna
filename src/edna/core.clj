@@ -83,14 +83,25 @@
           {:keys [note accidental octave-op octaves]} (parse/parse-note note)
           note (keyword (str note))
           accidental (parse/accidental->keyword accidental)
-          octaves (or octaves
-                      (if octave-op [\1] [\0]))
-          octave-change (cond-> (Integer/valueOf (str/join octaves))
-                                (= \- octave-op) (* -1))]
+          new-octave (cond
+                       ;; if the octave has a + or -, treat it as a relative octave change
+                       octave-op
+                       (-> (cons octave-op (or octaves [\1]))
+                           str/join
+                           Integer/valueOf
+                           (+ octave))
+                       ;; if the octave is just a number, treat it as an absolute octave change
+                       octaves
+                       (-> octaves
+                           str/join
+                           Integer/valueOf)
+                       ;; if there is no octave in the note, use the existing octave
+                       :else
+                       octave)]
       [(ale/part (name instrument)
          (when sibling-id
            (ale/at-marker (str/join "." (conj parent-ids sibling-id))))
-         (ala/octave (+ octave octave-change))
+         (ala/octave new-octave)
          (ala/tempo tempo)
          (ala/pan pan)
          (ala/quantize quantize)
