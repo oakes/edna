@@ -2,6 +2,19 @@
 
 A Clojure library for making music with edn data. It uses [Alda](https://github.com/alda-lang/alda) underneath. There are probably bugs...or maybe your music just sounds bad. It could be that. Think about it.
 
+
+### Setup
+- Leiningen/Boot
+```
+[edna "1.6.0"]
+```
+
+
+- Clojure CLI/deps.edn
+```
+edna {:mvn/version "1.6.0"}
+```
+
 ### [Try the playable examples!](https://oakes.github.io/edna/cljs/edna.examples.html)
 
 In addition to playing music, you can [export to mp3, wav, or midi](https://oakes.github.io/edna/clj/edna.core/export'e'.html) files, or even [export to a data URI](https://oakes.github.io/edna/clj/edna.core/edna-'g'data-uri.html) for playing on the web. With that, you can embed music in a [ClojureScript game](https://github.com/oakes/play-cljs) and the music will rebuild automatically when you edit it.
