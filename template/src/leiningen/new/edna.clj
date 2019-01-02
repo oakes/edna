@@ -32,12 +32,13 @@
 
 (defn edna*
   [{:keys [dir] :as data}]
-  (let [render (t/renderer "edna")]
+  (let [render (t/renderer "edna")
+        music (str "(ns " (:name data) ".music)\n\n" (:initial-score data))]
     {"README.md" (render "README.md" data)
      ".gitignore" (render "gitignore" data)
      "build.boot" (render "build.boot" data)
      "boot.properties" (render "boot.properties" data)
-     (str "src/" dir "/music.clj") (render "music.clj" data)
+     (str "src/" dir "/music.clj") music
      (str "src/" dir "/core.cljs") (render "core.cljs" data)
      (str "src/" dir "/core.clj") (render "core.clj" data)
      "resources/public/index.html" (render "index.html" data)
