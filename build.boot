@@ -20,8 +20,8 @@
   (set-env!
     :source-paths source-paths
     :resource-paths resource-paths
-    :dependencies (into '[[adzerk/boot-cljs "2.1.4" :scope "test"]
-                          [adzerk/boot-reload "0.5.2" :scope "test"]
+    :dependencies (into '[[adzerk/boot-cljs "2.1.5" :scope "test"]
+                          [adzerk/boot-reload "0.6.0" :scope "test"]
                           [nightlight "RELEASE" :scope "test"]
                           [dynadoc "RELEASE" :scope "test"]]
                     dependencies)
