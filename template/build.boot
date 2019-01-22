@@ -1,6 +1,6 @@
 (set-env!
   :resource-paths #{"src"}
-  :dependencies '[[org.clojure/clojure "1.9.0" :scope "provided"]]
+  :dependencies '[[org.clojure/clojure "1.10.0" :scope "provided"]]
   :repositories (conj (get-env :repositories)
                   ["clojars" {:url "https://clojars.org/repo/"
                               :username (System/getenv "CLOJARS_USER")
@@ -8,7 +8,7 @@
 
 (task-options!
   pom {:project 'edna/lein-template
-       :version "1.6.0-2"
+       :version "1.6.0-3"
        :description "A template for making edna projects"
        :url "https://github.com/oakes/edna"
        :license {"Public Domain" "http://unlicense.org/UNLICENSE"}}
