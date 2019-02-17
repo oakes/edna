@@ -36,7 +36,7 @@
      :initial-score initial-score}))
 
 (defn edna*
-  [data]
+  [{:keys [project_name core_name] :as data}]
   (let [render (t/renderer "edna")
         music (str "(ns " (:name data) ".music)\n\n" (:initial-score data))]
     {"README.md" (render "README.md" data)
@@ -46,10 +46,10 @@
      "dev.cljs.edn" (render "dev.cljs.edn" data)
      "dev.clj" (render "dev.clj" data)
      "prod.clj" (render "prod.clj" data)
-     "src/{{project_name}}/music.clj" music
-     "src/{{project_name}}/{{core_name}}.cljs" (render "core.cljs" data)
-     "src/{{project_name}}/{{core_name}}.clj" (render "core.clj" data)
-      "src/{{project_name}}/dev.cljs" (render "dev.cljs" data)
+     (str "src/" project_name "/music.clj") music
+     (str "src/" project_name "/" core_name ".cljs") (render "core.cljs" data)
+     (str "src/" project_name "/" core_name ".clj") (render "core.clj" data)
+     (str "src/" project_name "/dev.cljs") (render "dev.cljs" data)
      "resources/public/index.html" (render "index.html" data)}))
 
 (defn edna
