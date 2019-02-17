@@ -1,9 +1,13 @@
-## Introduction
+To build this project, you'll need the Clojure CLI tool:
 
-An edna project in which ... well, that part is up to you.
+https://clojure.org/guides/deps_and_cli
 
-* `boot run` plays the song and runs Nightlight for live editing
-* `boot build` exports an mp3 of the song
-* `boot run-cljs` hosts a browser-based version on http://localhost:3000 with live reloading
-* `boot build-cljs` creates a browser-based version suitable for putting online
 
+To develop with live code reloading:
+
+`clj dev.clj`
+
+
+To build a release version:
+
+`clj prod.clj`

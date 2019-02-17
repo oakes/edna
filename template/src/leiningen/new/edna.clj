@@ -23,26 +23,34 @@
  1/2 #{:-e :c :a} 1/2 #{:c :e}]")
 
 (defn edna-data [name]
-  (let [sanitized-name (sanitize-name name)]
-    (when-not (seq sanitized-name)
+  (let [[project-name core-name] (str/split name #"\." 2)
+        project-name (sanitize-name project-name)
+        core-name (if core-name (sanitize-name core-name) "core")]
+    (when (or (not (seq project-name))
+                   (not (seq core-name)))
       (throw (Exception. (str "Invalid name: " name))))
-    {:name sanitized-name
-     :dir (str/replace sanitized-name "-" "_")
+    {:name project-name
+     :core-name core-name
+     :project_name (str/replace project-name "-" "_")
+     :core_name (str/replace core-name "-" "_")
      :initial-score initial-score}))
 
 (defn edna*
-  [{:keys [dir] :as data}]
+  [data]
   (let [render (t/renderer "edna")
         music (str "(ns " (:name data) ".music)\n\n" (:initial-score data))]
     {"README.md" (render "README.md" data)
      ".gitignore" (render "gitignore" data)
-     "build.boot" (render "build.boot" data)
-     "boot.properties" (render "boot.properties" data)
-     (str "src/" dir "/music.clj") music
-     (str "src/" dir "/core.cljs") (render "core.cljs" data)
-     (str "src/" dir "/core.clj") (render "core.clj" data)
-     "resources/public/index.html" (render "index.html" data)
-     "resources/public/main.cljs.edn" (render "main.cljs.edn" data)}))
+     "deps.edn" (render "deps.edn" data)
+     "figwheel-main.edn" (render "figwheel-main.edn" data)
+     "dev.cljs.edn" (render "dev.cljs.edn" data)
+     "dev.clj" (render "dev.clj" data)
+     "prod.clj" (render "prod.clj" data)
+     "src/{{project_name}}/music.clj" music
+     "src/{{project_name}}/{{core_name}}.cljs" (render "core.cljs" data)
+     "src/{{project_name}}/{{core_name}}.clj" (render "core.clj" data)
+      "src/{{project_name}}/dev.cljs" (render "dev.cljs" data)
+     "resources/public/index.html" (render "index.html" data)}))
 
 (defn edna
   [name & _]

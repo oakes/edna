@@ -1,2 +1,0 @@
-{:require  [{{name}}.core nightlight.repl-server]
- :init-fns []}

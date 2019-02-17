@@ -10,7 +10,7 @@ In addition to playing music, you can [export to mp3, wav, or midi](https://oake
 
 There are several ways to create a project:
 
-* [Boot](http://boot-clj.com/): `boot -d boot/new new -t edna -n hello-world`
+* [The Clojure CLI Tool](https://clojure.org/guides/getting_started#_clojure_installer_and_cli_tools): `clj -Sdeps '{:deps {:seancorfield/clj-new {:mvn/version "0.5.5"}}}' -m clj-new.create edna my-music.core`
 * [Nightcode](https://sekao.net/nightcode/): Choose "Music Project" from its start menu
 * [Nightcoders.net](http://nightcoders.net/): Choose "Music" when creating a new project
 * [Midibin.com](https://midibin.com): A code playground dedicated to making music with edna

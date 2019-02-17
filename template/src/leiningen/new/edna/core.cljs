@@ -1,6 +1,6 @@
-(ns {{name}}.core
+(ns {{name}}.{{core-name}}
   (:require-macros [{{name}}.music]
-                   [{{name}}.core :refer [build-for-cljs]]))
+                   [{{name}}.{{core-name}} :refer [build-for-cljs]]))
 
 (defonce audio (js/document.createElement "audio"))
 (set! (.-src audio) (build-for-cljs))

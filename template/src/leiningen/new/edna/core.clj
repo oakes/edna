@@ -1,8 +1,8 @@
-(ns {{name}}.core
+(ns {{name}}.{{core-name}}
   (:require [edna.core :as edna]))
 
 (defn read-music []
-  (load-file "src/{{dir}}/music.clj"))
+  (load-file "src/{{project_name}}/music.clj"))
 
 (defonce state (atom nil))
 
