@@ -26,6 +26,8 @@
   (let [[project-name core-name] (str/split name #"\." 2)
         project-name (sanitize-name project-name)
         core-name (if core-name (sanitize-name core-name) "core")]
+    (when (= core-name "music")
+      (throw (Exception. "Please choose a different name than 'music'")))
     (when (or (not (seq project-name))
                    (not (seq core-name)))
       (throw (Exception. (str "Invalid name: " name))))

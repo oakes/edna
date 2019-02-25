@@ -1,3 +1,10 @@
+(defmulti task first)
+
+(defmethod task :default
+  [[task-name]]
+  (println "Unknown task:" task-name)
+  (System/exit 1))
+
 (require
   '[figwheel.main :as figwheel]
   '[nightlight.core :as nightlight]
@@ -9,7 +16,16 @@
       (delete-children-recursively! f2)))
   (when (.exists f) (io/delete-file f)))
 
-(delete-children-recursively! (io/file "resources/public/main.out"))
+(defmethod task nil
+  [_]
+  (delete-children-recursively! (io/file "resources/public/main.out"))
+  (nightlight/start {:port 4000 :url "http://localhost:9500"})
+  (figwheel/-main "--build" "dev"))
 
-(nightlight/start {:port 4000 :url "http://localhost:9500"})
-(figwheel/-main "--build" "dev")
+(require '[{{name}}.core])
+
+(defmethod task "play"
+  [_]
+  ({{name}}.core/-main))
+
+(task *command-line-args*)
