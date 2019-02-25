@@ -56,7 +56,5 @@
   [name & _]
   (let [data (edna-data name)
         path->content (edna* data)]
-    (when (= (:core-name data) "music")
-      (throw (Exception. "Please choose a different name than 'music'")))
     (apply t/->files data (vec path->content))))
 
