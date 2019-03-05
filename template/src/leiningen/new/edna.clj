@@ -23,11 +23,9 @@
  1/2 #{:-e :c :a} 1/2 #{:c :e}]")
 
 (defn edna-data [name]
-  (let [[project-name core-name] (str/split name #"\." 2)
-        project-name (sanitize-name project-name)
-        core-name (if core-name (sanitize-name core-name) "core")]
-    (when (or (not (seq project-name))
-                   (not (seq core-name)))
+  (let [project-name (sanitize-name name)
+        core-name "core"]
+    (when-not (seq project-name)
       (throw (Exception. (str "Invalid name: " name))))
     {:name project-name
      :core-name core-name
