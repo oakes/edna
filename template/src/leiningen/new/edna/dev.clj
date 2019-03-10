@@ -22,10 +22,10 @@
   (nightlight/start {:port 4000 :url "http://localhost:9500"})
   (figwheel/-main "--build" "dev"))
 
-(require '[{{name}}.core])
+(require '[{{name}}.{{core-name}}])
 
 (defmethod task "play"
   [_]
-  ({{name}}.core/-main))
+  ({{name}}.{{core-name}}/-main))
 
 (task *command-line-args*)
