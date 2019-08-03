@@ -69,8 +69,8 @@ The keyword at the beginning of your vector has to coorespond with something fro
 ## Development
 
 * Install [the Clojure CLI tool](https://clojure.org/guides/getting_started#_clojure_installer_and_cli_tools)
-* To develop with figwheel: `clj -A:dev dev.clj`
-* To install the release version: `clj -A:prod prod.clj install`
+* To develop with figwheel: `clj -A:dev`
+* To install the release version: `clj -A:prod install`
 
 ## Licensing
 
