@@ -13,7 +13,6 @@ There are several ways to create a project:
 * [The Clojure CLI Tool](https://clojure.org/guides/getting_started#_clojure_installer_and_cli_tools): `clj -Sdeps "{:deps {leiningen {:mvn/version \""2.9.0\""}}}" -m leiningen.core.main new edna my-music`
 * [Nightcode](https://sekao.net/nightcode/): Choose "Music Project" from its start menu
 * [Nightcoders.net](http://nightcoders.net/): Choose "Music" when creating a new project
-* [Midibin](https://github.com/oakes/Midibin): A code playground dedicated to making music with edna
 
 ## Documentation
 
