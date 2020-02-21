@@ -8,17 +8,14 @@ In addition to playing music, you can [export to mp3, wav, or midi](https://oake
 
 ## Getting Started
 
-There are several ways to create a project:
+You can generate a new project with the [Clojure CLI Tool](https://clojure.org/guides/getting_started#_clojure_installer_and_cli_tools):
 
-* [The Clojure CLI Tool](https://clojure.org/guides/getting_started#_clojure_installer_and_cli_tools): `clj -Sdeps "{:deps {leiningen {:mvn/version \""2.9.0\""}}}" -m leiningen.core.main new edna my-music`
-* [Nightcode](https://sekao.net/nightcode/): Choose "Music Project" from its start menu
-* [Nightcoders.net](http://nightcoders.net/): Choose "Music" when creating a new project
+`clj -Sdeps "{:deps {leiningen {:mvn/version \""2.9.0\""}}}" -m leiningen.core.main new edna my-music`
 
 ## Documentation
 
 * Check out [the example scores](https://github.com/oakes/edna/tree/master/examples)
 * Read [the dynadocs](https://oakes.github.io/edna/clj/edna.core.html)
-* Join the discussion on [r/midibin](https://www.reddit.com/r/midibin/)
 * See the screencasts:
   * Intro to edna: https://www.youtube.com/watch?v=yNz-T3Ij0LI
   * Making music for the web with edna: https://www.youtube.com/watch?v=aZkoPNFVEkQ
