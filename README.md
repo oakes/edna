@@ -12,14 +12,12 @@ You can generate a new project with the [Clojure CLI Tool](https://clojure.org/g
 
 `clj -Sdeps "{:deps {leiningen {:mvn/version \""2.9.0\""}}}" -m leiningen.core.main new edna my-music`
 
+It will contain a README with all the commands you need to use.
+
 ## Documentation
 
 * Check out [the example scores](https://github.com/oakes/edna/tree/master/examples)
 * Read [the dynadocs](https://oakes.github.io/edna/clj/edna.core.html)
-* See the screencasts:
-  * Intro to edna: https://www.youtube.com/watch?v=yNz-T3Ij0LI
-  * Making music for the web with edna: https://www.youtube.com/watch?v=aZkoPNFVEkQ
-  * Midibin.com - Turn code into music: https://www.youtube.com/watch?v=LiXcJr42CvQ
 * Look at this commented example:
 
 ```clojure
