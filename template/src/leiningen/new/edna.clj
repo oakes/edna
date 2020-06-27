@@ -47,7 +47,6 @@
      (str "src/" project_name "/music.clj") music
      (str "src/" project_name "/" core_name ".cljs") (render "core.cljs" data)
      (str "src/" project_name "/" core_name ".clj") (render "core.clj" data)
-     (str "src/" project_name "/dev.cljs") (render "dev.cljs" data)
      "resources/public/index.html" (render "index.html" data)}))
 
 (defn edna

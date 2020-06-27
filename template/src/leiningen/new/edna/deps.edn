@@ -1,6 +1,4 @@
 {:paths ["src" "resources" "target"]
- :deps {org.clojure/clojurescript {:mvn/version "1.10.520"}
-        com.bhauman/figwheel-main {:mvn/version "0.2.0"}
-        nightlight {:mvn/version "RELEASE"}
-        edna {:mvn/version "1.6.0"}
-        javax.xml.bind/jaxb-api {:mvn/version "2.3.0"}}}
+ :deps {org.clojure/clojurescript {:mvn/version "1.10.764"}
+        com.bhauman/figwheel-main {:mvn/version "0.2.9"}
+        edna {:mvn/version "1.6.0"}}}
