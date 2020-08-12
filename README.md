@@ -39,8 +39,14 @@ It will contain a README with all the commands you need to use.
 ; you have to change note lengths often so here's a shorthand
 [:piano {:octave 3} :c :d {:octave 4} 1/2 :e :f]
 
-; you can change individual notes' octave with + or - inside the keyword
+; you can change individual notes' relative octave with + or - inside the keyword
 [:piano {:octave 3} :c :d 1/2 :+e :+f]
+
+; a number following the + or - changes it by that many octaves
+[:piano {:octave 3} :c :d 1/2 :+2e :+2f]
+
+; if there is no + or - before the number, it sets the note's absolute octave
+[:piano {:octave 3} :c :d 1/2 :2e :2f]
 
 ; with all that, we can write the first line of dueling banjos
 [:guitar {:octave 3} 1/8 :b :+c 1/4 :+d :b :+c :a :b :g :a]
