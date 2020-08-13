@@ -61,7 +61,7 @@ It will contain a README with all the commands you need to use.
 
 ; to play two instruments simultaneously, put them in a set!
 #{[:banjo {:octave 3} 1/16 :b :+c 1/8 :+d :b :+c :a :b :g :a]
-  [:guitar {:octave 3} 1/16 :r :r 1/8 :g :r :d :r :g :g :d]}
+  [:guitar {:octave 3} 1/16 :r :r 1/8 :g :r :d :r :g :g :d]} ; the :r means rest
 ```
 
 The keyword at the beginning of your vector has to coorespond with something from Alda's [list of instruments](https://github.com/alda-lang/alda/blob/master/doc/list-of-instruments.md). After that, you can mix and match notes, chords, note lengths, and so on.
