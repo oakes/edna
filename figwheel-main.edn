@@ -1,1 +1,2 @@
-{:open-url "http://localhost:5000/cljs/edna.examples"}
+{:open-url "http://localhost:5000/cljs/edna.examples"
+ :clean-outputs true}

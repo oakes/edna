@@ -2,6 +2,6 @@
   '[figwheel.main :as figwheel]
   '[dynadoc.core :as dynadoc])
 
-(dynadoc/-main "--port" "5000")
+(dynadoc/start {:port 5000, :dedupe-pref :cljs})
 (figwheel/-main "--build" "dev")
 
