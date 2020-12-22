@@ -7,13 +7,13 @@
                                               com.miglayout/miglayout
                                               com.io7m.xom/xom]}
         org.clojure/data.codec {:mvn/version "0.1.1"}
-        defexample {:mvn/version "1.7.0"}
-        expound {:mvn/version "0.7.0"}
+        defexample/defexample {:mvn/version "1.7.0"}
+        expound/expound {:mvn/version "0.7.0"}
         org.bitbucket.daveyarwood/fluid-r3 {:mvn/version "0.1.1"}}
  :aliases {:dev {:extra-deps {org.clojure/clojurescript {:mvn/version "1.10.764"}
-                              dynadoc {:mvn/version "RELEASE"}
+                              dynadoc/dynadoc {:mvn/version "RELEASE"}
                               com.bhauman/figwheel-main {:mvn/version "0.2.9"}}
                  :extra-paths ["dev-resources"]
                  :main-opts ["dev.clj"]}
-           :prod {:extra-deps {leiningen {:mvn/version "2.9.0"}}
+           :prod {:extra-deps {leiningen/leiningen {:mvn/version "2.9.0"}}
                   :main-opts ["prod.clj"]}}}

@@ -10,7 +10,7 @@ In addition to playing music, you can [export to mp3, wav, or midi](https://oake
 
 You can generate a new project with the [Clojure CLI Tool](https://clojure.org/guides/getting_started#_clojure_installer_and_cli_tools):
 
-`clj -Sdeps "{:deps {leiningen {:mvn/version \""2.9.0\""}}}" -m leiningen.core.main new edna my-music`
+`clj -Sdeps "{:deps {leiningen/leiningen {:mvn/version \""2.9.0\""}}}" -m leiningen.core.main new edna my-music`
 
 It will contain a README with all the commands you need to use.
 
@@ -69,8 +69,8 @@ The keyword at the beginning of your vector has to coorespond with something fro
 ## Development
 
 * Install [the Clojure CLI tool](https://clojure.org/guides/getting_started#_clojure_installer_and_cli_tools)
-* To develop with figwheel: `clj -A:dev`
-* To install the release version: `clj -A:prod install`
+* To develop with figwheel: `clj -M:dev`
+* To install the release version: `clj -M:prod install`
 
 ## Licensing
 
