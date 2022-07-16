@@ -21,3 +21,5 @@ To play the song once:
 To build an mp3:
 
 `clj -M prod.clj mp3`
+
+**NOTE:** OpenJDK 11 is required! Newer versions of the JDK removed the `com.sun.media.sound.*` classes.

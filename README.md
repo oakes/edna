@@ -10,9 +10,11 @@ In addition to playing music, you can [export to mp3, wav, or midi](https://oake
 
 You can generate a new project with the [Clojure CLI Tool](https://clojure.org/guides/getting_started#_clojure_installer_and_cli_tools):
 
-`clj -Sdeps "{:deps {leiningen/leiningen {:mvn/version \""2.9.0\""}}}" -m leiningen.core.main new edna my-music`
+`clj -Sdeps "{:deps {leiningen/leiningen {:mvn/version \""2.9.0\""}}}" -M -m leiningen.core.main new edna my-music`
 
 It will contain a README with all the commands you need to use.
+
+**NOTE:** OpenJDK 11 is required! Newer versions of the JDK removed the `com.sun.media.sound.*` classes.
 
 ## Documentation
 
