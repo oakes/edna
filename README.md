@@ -6,6 +6,10 @@ A Clojure library for making music with edn data. It uses [Alda](https://github.
 
 In addition to playing music, you can [export to mp3, wav, or midi](https://oakes.github.io/edna/clj/edna.core/export'e'.html) files, or even [export to a data URI](https://oakes.github.io/edna/clj/edna.core/edna-'g'data-uri.html) for playing on the web. With that, you can embed music in a [ClojureScript game](https://github.com/oakes/play-cljc) and the music will rebuild automatically when you edit it.
 
+**NOTE:** OpenJDK 11 is required! Newer versions of the JDK removed the `com.sun.media.sound.*` classes.
+
+You may be interested in a very similar library I made for Nim called [paramidi](https://github.com/paranim/paramidi).
+
 ## Getting Started
 
 You can generate a new project with the [Clojure CLI Tool](https://clojure.org/guides/getting_started#_clojure_installer_and_cli_tools):
@@ -13,8 +17,6 @@ You can generate a new project with the [Clojure CLI Tool](https://clojure.org/g
 `clj -Sdeps "{:deps {leiningen/leiningen {:mvn/version \""2.9.0\""}}}" -M -m leiningen.core.main new edna my-music`
 
 It will contain a README with all the commands you need to use.
-
-**NOTE:** OpenJDK 11 is required! Newer versions of the JDK removed the `com.sun.media.sound.*` classes.
 
 ## Documentation
 
